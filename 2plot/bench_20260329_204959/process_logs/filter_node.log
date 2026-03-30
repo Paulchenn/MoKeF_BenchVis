@@ -1,0 +1,470 @@
+
+[2026-03-29 21:01:07] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774810867.983090570] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774810867.983212039] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774810868.452710514] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774810868.452764449] [ibvs_filter_node]: CameraInfo empfangen!
+[WARN] [1774810868.680472336] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774810869.788423578] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774810869.886231383] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "tool0" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774810870.060547028] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774810870.060609934] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774810907.074209146] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:01:47] STOP filter_node
+
+[2026-03-29 21:01:54] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774810914.428623213] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774810914.428913181] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774810914.782743438] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774810915.125450208] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774810916.003564875] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774810916.205092184] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774810916.331870504] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774810916.331931189] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774810916.422973429] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774810958.197137580] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:02:38] STOP filter_node
+
+[2026-03-29 21:02:45] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774810965.585540925] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774810965.585668250] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774810965.801537967] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774810966.285116959] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774810967.082950486] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774810967.285333659] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774810967.363967576] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774810967.364015408] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774810967.582901853] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811009.155691364] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:03:29] STOP filter_node
+
+[2026-03-29 21:03:35] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811016.168319250] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811016.168437993] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811016.797695307] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811016.868660747] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[WARN] [1774811017.869335922] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811018.114093642] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811018.114151395] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811018.165951850] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811018.188530801] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811057.270718162] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:04:17] STOP filter_node
+
+[2026-03-29 21:04:24] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811064.590919606] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811064.591047739] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811064.799186717] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811065.286225909] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811066.084669568] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774811066.286513531] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774811066.460571695] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811066.460630694] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811066.584650409] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811108.127774516] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:05:08] STOP filter_node
+
+[2026-03-29 21:06:07] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811168.118800123] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811168.118941058] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811168.462470359] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811168.462516877] [ibvs_filter_node]: CameraInfo empfangen!
+[WARN] [1774811168.818051815] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811169.646191855] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811169.646263689] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811169.769185544] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774811207.075332730] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:06:48] STOP filter_node
+
+[2026-03-29 21:06:54] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811214.688501746] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811214.688757160] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[WARN] [1774811215.387875881] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811216.183145981] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774811216.390372295] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774811216.456569953] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811216.456621404] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811216.564085840] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774811216.684501902] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811255.232865575] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:07:35] STOP filter_node
+
+[2026-03-29 21:07:42] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811262.733937808] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811262.734091444] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[WARN] [1774811263.433989440] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811264.230998783] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811264.418284933] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811264.418347621] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811264.505538715] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774811264.730745354] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811303.343262710] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:08:24] STOP filter_node
+
+[2026-03-29 21:08:30] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811310.903656546] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811310.903780305] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[WARN] [1774811311.603218672] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811312.002121115] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811312.464244343] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811312.464299504] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811312.542486218] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811313.003878735] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774811351.262498308] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:09:11] STOP filter_node
+
+[2026-03-29 21:09:18] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811358.650603831] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811358.650811020] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811358.656479808] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811359.346448161] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811360.143770251] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774811360.346458960] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774811360.458119510] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811360.458172438] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811360.643728066] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811394.485023335] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:09:55] STOP filter_node
+
+[2026-03-29 21:10:52] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811453.121256323] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811453.121372182] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811453.471462950] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811453.471516824] [ibvs_filter_node]: CameraInfo empfangen!
+[WARN] [1774811453.821379067] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811454.815030333] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811454.821705489] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811455.118917618] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811455.118978881] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811494.724483494] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:11:35] STOP filter_node
+
+[2026-03-29 21:11:41] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811501.917576224] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811501.917699424] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[WARN] [1774811502.616798652] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811502.802577679] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811503.818753999] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "tool0" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811503.840213750] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811503.840271575] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811503.914693562] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811503.925007469] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811545.514439462] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:12:26] STOP filter_node
+
+[2026-03-29 21:12:32] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811552.635979343] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811552.636125283] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[WARN] [1774811553.337190529] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811553.822618725] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811554.536898565] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "tool0" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811554.633994448] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811554.634048289] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811554.704647595] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811554.704724251] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811600.211420497] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:13:20] STOP filter_node
+
+[2026-03-29 21:13:27] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811607.545453704] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811607.545585830] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811607.643504211] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811608.242836287] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811609.174071437] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811609.366206789] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811609.366270900] [ibvs_filter_node]: CameraInfo empfangen!
+[WARN] [1774811609.383889322] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774811609.539966170] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811650.681400039] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:14:11] STOP filter_node
+
+[2026-03-29 21:14:17] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811658.045312293] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811658.045485030] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811658.050722487] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774811658.538427928] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774811658.742952103] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774811659.834611815] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811659.834678418] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811660.038367631] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811704.598451914] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:15:05] STOP filter_node
+
+[2026-03-29 21:16:28] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811788.743917196] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811788.744066269] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811789.240714975] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774811789.443102273] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774811789.515625703] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811789.515828536] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811789.740703243] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811790.652536851] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774811834.406438997] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:17:15] STOP filter_node
+
+[2026-03-29 21:17:21] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811841.775790237] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811841.775926844] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811841.922060638] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811842.473566238] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811843.271536637] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811843.489539212] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811843.489591828] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811843.771499362] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811891.327726030] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:18:12] STOP filter_node
+
+[2026-03-29 21:18:18] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811898.793868511] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811898.794003333] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[WARN] [1774811899.491929745] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811900.289500093] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774811900.487220322] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811900.487272066] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811900.656250639] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774811900.789512526] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811939.291954747] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:19:00] STOP filter_node
+
+[2026-03-29 21:19:06] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811946.617910248] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811946.618040455] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811946.843042723] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811947.314831723] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811948.112520474] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774811948.315750778] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774811948.316696660] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811948.316734868] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811948.612229254] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774811990.272255834] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:19:50] STOP filter_node
+
+[2026-03-29 21:19:57] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ekf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774811997.468102604] [ibvs_filter_node]: Filter Node gestartet. Modus: ekf. Warte auf K-Matrix und Referenz...
+[INFO] [1774811997.468247572] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774811997.843702895] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774811998.163917813] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774811999.042954893] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774811999.248456498] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774811999.405380043] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774811999.405445635] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774811999.492000267] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812041.169367030] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:20:41] STOP filter_node
+
+[2026-03-29 21:22:04] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812125.054002669] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812125.054128404] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774812125.494472801] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812125.494536247] [ibvs_filter_node]: CameraInfo empfangen!
+[WARN] [1774812125.753216748] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[WARN] [1774812126.754589048] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812126.925819881] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774812127.051379490] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774812127.051449594] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812163.071588282] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:22:44] STOP filter_node
+
+[2026-03-29 21:22:51] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812171.384482781] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812171.384762725] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774812171.851288371] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774812172.082122633] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812173.050126590] [ibvs_filter_node]: TF ready (base <- tool0)
+[WARN] [1774812173.252622814] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774812173.385997595] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812173.386054338] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774812173.572384715] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812215.161188475] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:23:36] STOP filter_node
+
+[2026-03-29 21:23:43] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812223.493288739] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812223.493408148] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[WARN] [1774812224.193513524] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812224.602827527] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774812225.109597854] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774812225.510786244] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812225.510839115] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774812225.582657880] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812258.427710678] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:24:19] STOP filter_node
+
+[2026-03-29 21:24:26] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812266.454618835] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812266.454740866] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[WARN] [1774812267.153936895] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812267.864128978] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774812268.155120206] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812268.633293177] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812268.633354033] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774812269.193812606] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812269.497871756] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774812305.352568663] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:25:06] STOP filter_node
+
+[2026-03-29 21:25:12] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=ukf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812312.924009965] [ibvs_filter_node]: Filter Node gestartet. Modus: ukf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812312.924170286] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[WARN] [1774812313.620137060] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812314.038925522] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774812314.492850414] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812314.492911068] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774812314.579932147] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812314.647772519] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774812353.257115558] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:25:54] STOP filter_node
+
+[2026-03-29 21:27:04] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812424.866370036] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812424.866496101] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774812425.361007265] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774812425.517735415] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812425.517790066] [ibvs_filter_node]: CameraInfo empfangen!
+[WARN] [1774812425.563234996] [ibvs_filter_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774812425.860991344] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812426.442532685] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[INFO] [1774812473.549932052] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:27:54] STOP filter_node
+
+[2026-03-29 21:28:00] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812480.721649884] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812480.721819210] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774812480.722397593] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812480.722419657] [ibvs_filter_node]: CameraInfo empfangen!
+[INFO] [1774812480.870217267] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774812481.415540797] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[WARN] [1774812482.418724261] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812482.562312416] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812482.713246684] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774812524.807819764] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:28:46] STOP filter_node
+
+[2026-03-29 21:28:52] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812533.166885255] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812533.166996960] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774812533.518698671] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812533.518753596] [ibvs_filter_node]: CameraInfo empfangen!
+[WARN] [1774812533.866229035] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812534.865501706] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774812534.870196277] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812534.971380469] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812535.164565488] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774812572.790313610] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:29:33] STOP filter_node
+
+[2026-03-29 21:29:39] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812579.948843350] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812579.948985840] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774812579.951434264] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774812580.638878134] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812581.631394994] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812581.633439523] [ibvs_filter_node]: CameraInfo empfangen!
+[WARN] [1774812581.639665391] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812582.038638536] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774812582.038781222] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812623.787753333] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:30:25] STOP filter_node
+
+[2026-03-29 21:30:31] START filter_node
+CMD: ros2 run ibvs_filter_cpp filter_node --ros-args -p filter_type:=eskf -p q_noise:=2.0 -p r_noise:=1.5 -p gate_threshold:=3.0 -p z_depth:=0.25 -p predict_rate:=30.0 -p camera_velocity_topic:=/cartesian_twist_passthrough_controller/cmd_vel -p max_active_keypoints:=30 -p min_init_keypoints:=70 -p min_update_keypoints:=5
+
+[INFO] [1774812632.073827632] [ibvs_filter_node]: Filter Node gestartet. Modus: eskf. Warte auf K-Matrix und Referenz...
+[INFO] [1774812632.073955636] [ibvs_filter_node]: TF velocity conversion: base=base tcp=tool0 camera=camera_color_optical_frame
+[INFO] [1774812632.538223926] [ibvs_filter_node]: Filter initialized. active_max=30, min_init=70, min_update=5
+[INFO] [1774812632.538288223] [ibvs_filter_node]: CameraInfo empfangen!
+[WARN] [1774812632.771702434] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812633.738701432] [ibvs_filter_node]: Neue Referenz empfangen! (300 Keypoints)
+[WARN] [1774812633.773417467] [ibvs_filter_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774812633.864680463] [ibvs_filter_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774812634.070723250] [ibvs_filter_node]: TF ready (base <- tool0)
+[INFO] [1774812674.959349941] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+
+[2026-03-29 21:31:16] STOP filter_node
