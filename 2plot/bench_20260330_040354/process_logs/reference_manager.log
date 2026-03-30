@@ -1,0 +1,20 @@
+
+[2026-03-30 04:03:54] START reference_manager
+CMD: ros2 run ibvs_reference reference_manager --ros-args -p keypoints_topic:=/ibvs/keypoints -p image_topic:=/camera/camera/color/image_raw/compressed -p init_duration_sec:=5.0 -p ref_top_k:=300 -p debug_mode:=false
+
+[INFO] [1774836234.934223068] [reference_manager_node]: Ready. keypoints_topic=/ibvs/keypoints image_topic=/camera/camera/color/image_raw/compressed (compressed)
+[INFO] [1774836269.040763592] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774836274.110714323] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774836274.111001466] [reference_manager_node]: Capture done. candidates=3490 kept=300 best_count=224
+[INFO] [1774836613.385366228] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774836618.471979710] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774836618.472406883] [reference_manager_node]: Capture done. candidates=3576 kept=300 best_count=246
+[INFO] [1774837034.277017971] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774837039.320519391] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774837039.320837550] [reference_manager_node]: Capture done. candidates=3439 kept=300 best_count=202
+[INFO] [1774837422.244025607] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774837427.260191527] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774837427.260491585] [reference_manager_node]: Capture done. candidates=3456 kept=300 best_count=254
+[INFO] [1774837554.350384348] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774837559.385285705] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774837559.385624491] [reference_manager_node]: Capture done. candidates=2186 kept=300 best_count=307

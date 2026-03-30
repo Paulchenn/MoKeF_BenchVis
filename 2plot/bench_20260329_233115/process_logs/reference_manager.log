@@ -1,0 +1,61 @@
+
+[2026-03-29 23:31:15] START reference_manager
+CMD: ros2 run ibvs_reference reference_manager --ros-args -p keypoints_topic:=/ibvs/keypoints -p image_topic:=/camera/camera/color/image_raw/compressed -p init_duration_sec:=5.0 -p ref_top_k:=300 -p debug_mode:=false
+
+[INFO] [1774819875.983296962] [reference_manager_node]: Ready. keypoints_topic=/ibvs/keypoints image_topic=/camera/camera/color/image_raw/compressed (compressed)
+[INFO] [1774819909.853542157] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774819914.912559121] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774819914.912858254] [reference_manager_node]: Capture done. candidates=2787 kept=300 best_count=238
+[INFO] [1774820246.319155224] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774820251.367102836] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774820251.367415680] [reference_manager_node]: Capture done. candidates=2923 kept=300 best_count=235
+[INFO] [1774820567.209239690] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774820572.243406123] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774820572.243725969] [reference_manager_node]: Capture done. candidates=2776 kept=300 best_count=226
+[INFO] [1774820904.972047367] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774820910.006590492] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774820910.006896172] [reference_manager_node]: Capture done. candidates=2944 kept=300 best_count=240
+[INFO] [1774821269.370197161] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774821274.397601299] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774821274.398034237] [reference_manager_node]: Capture done. candidates=2906 kept=300 best_count=262
+[INFO] [1774821595.812127750] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774821600.864957114] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774821600.865284097] [reference_manager_node]: Capture done. candidates=2780 kept=300 best_count=207
+[INFO] [1774821659.142050887] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774821664.209747699] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774821664.210098109] [reference_manager_node]: Capture done. candidates=2731 kept=300 best_count=250
+[INFO] [1774821986.695646359] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774821991.767259143] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774821991.767574105] [reference_manager_node]: Capture done. candidates=2793 kept=300 best_count=241
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_reference/ibvs_reference/reference_manager_node.py", line 392, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 762, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 745, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 642, in _wait_for_ready_callbacks
+    wait_set.wait(timeout_nsec)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_reference/reference_manager", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-reference', 'console_scripts', 'reference_manager')())
+  File "/home/ros_ws/build/ibvs_reference/ibvs_reference/reference_manager_node.py", line 395, in main
+    rclpy.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+    _shutdown(context=context)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+    return context.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+    self.__context.shutdown()
+rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[ros2run]: Process exited with failure 1
+
+[2026-03-30 00:11:38] STOP reference_manager

@@ -1,0 +1,677 @@
+
+[2026-03-30 01:04:22] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=raw -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774825462.868148629] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=raw
+[INFO] [1774825462.868584242] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774825462.869097226] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774825462.869585092] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774825462.870069081] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774825462.870555837] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774825462.871043027] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774825462.880957420] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[WARN] [1774825464.018772856] [ibvs_twist_controller_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774825464.640399309] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[WARN] [1774825465.144200799] [ibvs_twist_controller_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774825467.755336548] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774825467.779146046] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[INFO] [1774825473.919275446] [ibvs_twist_controller_node]: IBVS active: source=raw points=32 rms_px=242.48 depth_valid=32/32 depth_samples=32/32 depth_med=0.368m depth_fb=0.291m twist_base=[+0.014,-0.009,-0.001,+0.001,-0.001,-0.109]
+[INFO] [1774825474.950662671] [ibvs_twist_controller_node]: IBVS active: source=raw points=18 rms_px=233.44 depth_valid=15/18 depth_samples=15/18 depth_med=0.367m depth_fb=0.367m twist_base=[+0.011,-0.012,-0.004,+0.001,-0.001,-0.090]
+[INFO] [1774825475.981581867] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825477.014676258] [ibvs_twist_controller_node]: Not enough features: 1 < min_matches=5.
+[INFO] [1774825478.047600964] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825479.082033250] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825480.081189481] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825481.114112519] [ibvs_twist_controller_node]: Not enough features: 1 < min_matches=5.
+[INFO] [1774825482.115387790] [ibvs_twist_controller_node]: Not enough features: 4 < min_matches=5.
+[INFO] [1774825483.149321672] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825484.184272176] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825486.187455965] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825487.214840406] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825489.258771654] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825490.280832268] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825492.330406894] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825493.347896942] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825495.400681845] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825496.426012271] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825498.473387612] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825499.480745604] [ibvs_twist_controller_node]: Not enough features: 1 < min_matches=5.
+[INFO] [1774825501.547391115] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825502.548369716] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825504.459168246] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825505.014073093] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 928, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 762, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 745, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 642, in _wait_for_ready_callbacks
+    wait_set.wait(timeout_nsec)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_control/ibvs_twist_controller", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-control', 'console_scripts', 'ibvs_twist_controller')())
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 930, in main
+    node.publish_zero_twist()
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 732, in publish_zero_twist
+    self.twist_pub.publish(Twist())
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+
+[2026-03-30 01:05:13] STOP ibvs_controller
+
+[2026-03-30 01:05:28] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=raw -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774825529.973531874] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=raw
+[INFO] [1774825529.976723780] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774825529.977664760] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774825529.978555125] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774825529.979407024] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774825529.980270799] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774825529.981146065] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774825529.983615225] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[INFO] [1774825529.988707902] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[WARN] [1774825530.657560507] [ibvs_twist_controller_node]: TF lookup failed (base <- tool0): "tool0" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774825531.467850836] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[INFO] [1774825531.473946230] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774825533.593241826] [ibvs_twist_controller_node]: IBVS active: source=raw points=33 rms_px=239.06 depth_valid=33/33 depth_samples=33/33 depth_med=0.366m depth_fb=0.291m twist_base=[+0.012,-0.010,-0.002,+0.001,-0.001,-0.100]
+[INFO] [1774825534.623448096] [ibvs_twist_controller_node]: IBVS active: source=raw points=19 rms_px=240.73 depth_valid=15/19 depth_samples=15/19 depth_med=0.368m depth_fb=0.368m twist_base=[+0.012,-0.011,-0.003,+0.001,-0.001,-0.096]
+[INFO] [1774825535.654144107] [ibvs_twist_controller_node]: Not enough features: 4 < min_matches=5.
+[INFO] [1774825536.687201726] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825537.721071427] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825538.721238879] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825539.754219470] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825540.754666530] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825541.754625261] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825542.787150459] [ibvs_twist_controller_node]: Not enough features: 4 < min_matches=5.
+[INFO] [1774825543.787150836] [ibvs_twist_controller_node]: Not enough features: 1 < min_matches=5.
+[INFO] [1774825544.787270312] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825545.820287232] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825546.821494331] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825547.854301948] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825549.226639532] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825550.253948244] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825552.297594194] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825553.321106297] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825555.370353221] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825556.395970949] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825558.442031386] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825559.454681604] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825561.515829895] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825562.530724532] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825564.305211044] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825564.754681278] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+
+[2026-03-30 01:06:12] STOP ibvs_controller
+
+[2026-03-30 01:06:23] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=raw -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774825584.536094209] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=raw
+[INFO] [1774825584.536958903] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774825584.537674316] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774825584.538491979] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774825584.539606259] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774825584.540313738] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774825584.540842045] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774825584.542595528] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[INFO] [1774825584.543876152] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[WARN] [1774825585.184735775] [ibvs_twist_controller_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[WARN] [1774825586.388443925] [ibvs_twist_controller_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "tool0" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774825586.482285016] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[INFO] [1774825586.484256627] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774825587.354191025] [ibvs_twist_controller_node]: IBVS active: source=raw points=33 rms_px=239.95 depth_valid=33/33 depth_samples=33/33 depth_med=0.368m depth_fb=0.291m twist_base=[+0.014,-0.009,-0.001,+0.001,-0.001,-0.109]
+[INFO] [1774825588.382555215] [ibvs_twist_controller_node]: IBVS active: source=raw points=21 rms_px=241.90 depth_valid=19/21 depth_samples=19/21 depth_med=0.367m depth_fb=0.367m twist_base=[+0.011,-0.011,-0.003,+0.001,-0.001,-0.093]
+[INFO] [1774825589.412911556] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825590.568596330] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825591.582411511] [ibvs_twist_controller_node]: Not enough features: 4 < min_matches=5.
+[INFO] [1774825592.612725266] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825593.642260944] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825594.647105470] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825595.679993567] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825596.714302114] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825597.746548569] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825598.747686625] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825599.785971894] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825600.814331845] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825601.846587278] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825602.846702073] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825603.882542270] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825604.912878474] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825605.914293156] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825606.947227290] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825607.980367288] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825608.980387136] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825609.980664306] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825610.980948087] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825612.013879533] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825613.014463178] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825614.046390938] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825615.047553127] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825616.080528145] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825617.080639132] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825618.112744911] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825618.546252182] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+
+[2026-03-30 01:07:06] STOP ibvs_controller
+
+[2026-03-30 01:07:16] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=raw -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774825637.069508903] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=raw
+[INFO] [1774825637.069795951] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774825637.070006598] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774825637.070206121] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774825637.070403780] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774825637.070609539] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774825637.070820272] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774825637.072310150] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[INFO] [1774825637.083705367] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[INFO] [1774825637.550361700] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[INFO] [1774825637.550779049] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774825640.417373016] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825641.420207761] [ibvs_twist_controller_node]: IBVS active: source=raw points=30 rms_px=244.84 depth_valid=30/30 depth_samples=30/30 depth_med=0.370m depth_fb=0.366m twist_base=[+0.013,-0.009,-0.001,+0.001,-0.001,-0.105]
+[INFO] [1774825642.728757186] [ibvs_twist_controller_node]: IBVS active: source=raw points=30 rms_px=255.18 depth_valid=30/30 depth_samples=30/30 depth_med=0.370m depth_fb=0.368m twist_base=[+0.014,-0.009,-0.001,+0.001,-0.001,-0.109]
+[INFO] [1774825643.750102389] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825644.753542492] [ibvs_twist_controller_node]: IBVS active: source=raw points=12 rms_px=237.45 depth_valid=11/12 depth_samples=11/12 depth_med=0.370m depth_fb=0.369m twist_base=[+0.008,-0.014,-0.007,+0.001,-0.000,-0.077]
+[INFO] [1774825645.784376510] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825646.816844834] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825648.872890265] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825649.884630457] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825651.945421037] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825652.950098173] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825655.017473518] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825656.050475835] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825657.052350236] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825658.083398114] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825659.083643407] [ibvs_twist_controller_node]: Not enough features: 4 < min_matches=5.
+[INFO] [1774825661.161526267] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825662.184107707] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825664.235153850] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825665.251096839] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825666.251429391] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825667.286504566] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825668.318694952] [ibvs_twist_controller_node]: Not enough features: 3 < min_matches=5.
+[INFO] [1774825669.350808878] [ibvs_twist_controller_node]: Not enough features: 2 < min_matches=5.
+[INFO] [1774825670.383752634] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825671.384581161] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825671.484432980] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 928, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 762, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 745, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 642, in _wait_for_ready_callbacks
+    wait_set.wait(timeout_nsec)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_control/ibvs_twist_controller", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-control', 'console_scripts', 'ibvs_twist_controller')())
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 930, in main
+    node.publish_zero_twist()
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 732, in publish_zero_twist
+    self.twist_pub.publish(Twist())
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+
+[2026-03-30 01:07:57] STOP ibvs_controller
+
+[2026-03-30 01:08:10] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=raw -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774825691.527428838] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=raw
+[INFO] [1774825691.527854244] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774825691.528188343] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774825691.528515220] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774825691.528847173] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774825691.529182130] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774825691.529516434] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774825691.530818953] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[INFO] [1774825691.539200281] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[WARN] [1774825692.206911188] [ibvs_twist_controller_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774825692.505750215] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[INFO] [1774825692.506068060] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774825694.505858431] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825695.539043393] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825696.539157868] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825697.572293140] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825698.574418210] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825699.605781848] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825701.098523872] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825702.105644917] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825704.169405632] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825705.172360235] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825706.205625614] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825707.241268390] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825708.272295293] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825709.272370410] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825710.313773413] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825711.339153818] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825712.372424967] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825713.406009212] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825714.438978700] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825715.472323523] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825716.472711870] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825717.505727880] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825718.505673711] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825719.538963881] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825720.572401254] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825721.605632761] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825722.605992995] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825723.639147843] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825724.672337005] [ibvs_twist_controller_node]: No fresh feature set available (selected source stale/unavailable).
+[INFO] [1774825725.439371488] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 928, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 762, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 745, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 642, in _wait_for_ready_callbacks
+    wait_set.wait(timeout_nsec)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_control/ibvs_twist_controller", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-control', 'console_scripts', 'ibvs_twist_controller')())
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 930, in main
+    node.publish_zero_twist()
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 732, in publish_zero_twist
+    self.twist_pub.publish(Twist())
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+
+[2026-03-30 01:08:51] STOP ibvs_controller
+
+[2026-03-30 01:11:59] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=filtered -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774825920.836134664] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=filtered
+[INFO] [1774825920.836564813] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774825920.836929892] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774825920.837287852] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774825920.837636329] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774825920.840978242] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774825920.841336888] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774825920.843566232] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[INFO] [1774825920.847832165] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[INFO] [1774825921.310089957] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[INFO] [1774825921.310478695] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774825923.211222702] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=247.87 depth_valid=30/30 depth_samples=30/30 depth_med=0.365m depth_fb=0.282m twist_base=[+0.004,-0.017,-0.002,+0.000,-0.000,-0.039]
+[INFO] [1774825924.243930096] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=223.97 depth_valid=30/30 depth_samples=30/30 depth_med=0.364m depth_fb=0.339m twist_base=[+0.004,-0.017,+0.000,+0.000,-0.000,-0.028]
+[INFO] [1774825925.243941542] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=192.60 depth_valid=30/30 depth_samples=30/30 depth_med=0.365m depth_fb=0.340m twist_base=[+0.005,-0.017,+0.003,+0.000,-0.000,-0.022]
+[INFO] [1774825926.245732690] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=162.66 depth_valid=30/30 depth_samples=30/30 depth_med=0.368m depth_fb=0.344m twist_base=[+0.006,-0.016,+0.004,+0.000,-0.000,-0.019]
+[INFO] [1774825927.277476780] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=130.98 depth_valid=30/30 depth_samples=30/30 depth_med=0.373m depth_fb=0.348m twist_base=[+0.005,-0.017,+0.005,+0.000,-0.000,-0.016]
+[INFO] [1774825928.311115704] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=103.38 depth_valid=30/30 depth_samples=30/30 depth_med=0.379m depth_fb=0.354m twist_base=[+0.005,-0.014,+0.006,+0.000,-0.000,-0.014]
+[INFO] [1774825929.343990166] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=83.44 depth_valid=30/30 depth_samples=30/30 depth_med=0.386m depth_fb=0.361m twist_base=[+0.004,-0.011,+0.006,+0.000,-0.000,-0.012]
+[INFO] [1774825930.348263388] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=113.49 depth_valid=30/30 depth_samples=30/30 depth_med=0.362m depth_fb=0.363m twist_base=[+0.005,-0.014,-0.006,+0.000,-0.000,-0.075]
+[INFO] [1774825931.380239576] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=89.19 depth_valid=30/30 depth_samples=30/30 depth_med=0.383m depth_fb=0.375m twist_base=[+0.002,-0.011,-0.012,+0.000,-0.000,-0.069]
+[INFO] [1774825932.413419434] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=77.15 depth_valid=30/30 depth_samples=30/30 depth_med=0.369m depth_fb=0.361m twist_base=[+0.001,-0.009,-0.011,+0.000,-0.000,-0.056]
+[INFO] [1774825933.412664476] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=55.08 depth_valid=30/30 depth_samples=30/30 depth_med=0.363m depth_fb=0.351m twist_base=[-0.000,-0.006,-0.009,+0.000,-0.000,-0.040]
+[INFO] [1774825934.412737938] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=31.65 depth_valid=30/30 depth_samples=30/30 depth_med=0.354m depth_fb=0.345m twist_base=[-0.001,-0.003,-0.005,+0.000,-0.000,-0.021]
+[INFO] [1774825935.445496891] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=27.61 depth_valid=30/30 depth_samples=30/30 depth_med=0.346m depth_fb=0.339m twist_base=[-0.001,-0.002,-0.005,+0.000,-0.000,-0.018]
+[INFO] [1774825936.447406201] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=21.66 depth_valid=30/30 depth_samples=30/30 depth_med=0.344m depth_fb=0.335m twist_base=[+0.000,-0.001,-0.005,+0.000,-0.000,-0.014]
+[INFO] [1774825937.477310753] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=10.95 depth_valid=30/30 depth_samples=30/30 depth_med=0.342m depth_fb=0.332m twist_base=[-0.000,-0.001,-0.002,+0.000,-0.000,-0.007]
+[INFO] [1774825938.510711415] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=9.57 depth_valid=30/30 depth_samples=30/30 depth_med=0.340m depth_fb=0.330m twist_base=[-0.000,-0.001,-0.002,+0.000,-0.000,-0.006]
+[INFO] [1774825939.511779482] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=6.32 depth_valid=30/30 depth_samples=30/30 depth_med=0.339m depth_fb=0.329m twist_base=[-0.000,-0.000,-0.001,+0.000,-0.000,-0.003]
+[INFO] [1774825940.544103669] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=4.35 depth_valid=30/30 depth_samples=30/30 depth_med=0.333m depth_fb=0.327m twist_base=[-0.000,-0.000,-0.001,+0.000,-0.000,-0.002]
+[INFO] [1774825941.576631940] [ibvs_twist_controller_node]: Goal reached: source=filtered rms_px=4.95, points=30.
+[INFO] [1774825942.576641140] [ibvs_twist_controller_node]: Goal reached: source=filtered rms_px=4.28, points=30.
+[INFO] [1774825942.810001427] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 928, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 762, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 745, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 642, in _wait_for_ready_callbacks
+    wait_set.wait(timeout_nsec)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_control/ibvs_twist_controller", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-control', 'console_scripts', 'ibvs_twist_controller')())
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 930, in main
+    node.publish_zero_twist()
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 732, in publish_zero_twist
+    self.twist_pub.publish(Twist())
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[ros2run]: Process exited with failure 1
+
+[2026-03-30 01:12:25] STOP ibvs_controller
+
+[2026-03-30 01:12:47] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=filtered -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774825968.179564862] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=filtered
+[INFO] [1774825968.179862532] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774825968.180098731] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774825968.180310480] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774825968.180506347] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774825968.180715744] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774825968.180959791] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774825968.201130271] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[WARN] [1774825968.870103135] [ibvs_twist_controller_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774825969.072731667] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[WARN] [1774825969.871024495] [ibvs_twist_controller_node]: TF lookup failed (base <- tool0): "base" passed to lookupTransform argument target_frame does not exist. 
+[INFO] [1774825970.167931681] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[INFO] [1774825970.168364794] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774825971.902926327] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=243.77 depth_valid=30/30 depth_samples=30/30 depth_med=0.250m depth_fb=0.250m twist_base=[+0.015,-0.008,-0.001,+0.001,-0.001,-0.116]
+[INFO] [1774825972.935179639] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=234.32 depth_valid=30/30 depth_samples=30/30 depth_med=0.249m depth_fb=0.249m twist_base=[+0.014,-0.009,-0.001,+0.001,-0.001,-0.110]
+[INFO] [1774825973.935201298] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=204.07 depth_valid=30/30 depth_samples=30/30 depth_med=0.247m depth_fb=0.247m twist_base=[+0.010,-0.013,-0.003,+0.001,-0.000,-0.084]
+[INFO] [1774825974.935193801] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=169.75 depth_valid=30/30 depth_samples=30/30 depth_med=0.244m depth_fb=0.244m twist_base=[+0.007,-0.015,-0.003,+0.000,-0.000,-0.063]
+[INFO] [1774825975.935253582] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=131.79 depth_valid=30/30 depth_samples=30/30 depth_med=0.240m depth_fb=0.240m twist_base=[+0.004,-0.015,-0.003,+0.000,-0.000,-0.047]
+[INFO] [1774825976.935402577] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=98.93 depth_valid=30/30 depth_samples=30/30 depth_med=0.237m depth_fb=0.237m twist_base=[+0.002,-0.011,-0.003,+0.000,-0.000,-0.036]
+[INFO] [1774825977.936141409] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=74.43 depth_valid=30/30 depth_samples=30/30 depth_med=0.235m depth_fb=0.235m twist_base=[+0.001,-0.008,-0.002,+0.000,-0.000,-0.027]
+[INFO] [1774825978.968767102] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=55.54 depth_valid=30/30 depth_samples=30/30 depth_med=0.233m depth_fb=0.233m twist_base=[+0.000,-0.006,-0.002,+0.000,-0.000,-0.020]
+[INFO] [1774825980.001950575] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=41.61 depth_valid=30/30 depth_samples=30/30 depth_med=0.231m depth_fb=0.231m twist_base=[+0.000,-0.004,-0.001,+0.000,-0.000,-0.015]
+[INFO] [1774825981.004448878] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=31.64 depth_valid=30/30 depth_samples=30/30 depth_med=0.230m depth_fb=0.230m twist_base=[-0.000,-0.003,-0.001,+0.000,-0.000,-0.011]
+[INFO] [1774825982.036140733] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=24.10 depth_valid=30/30 depth_samples=30/30 depth_med=0.229m depth_fb=0.229m twist_base=[-0.000,-0.002,-0.001,+0.000,-0.000,-0.009]
+[INFO] [1774825983.068601440] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=97.70 depth_valid=30/30 depth_samples=30/30 depth_med=0.247m depth_fb=0.247m twist_base=[-0.003,-0.012,-0.003,-0.000,+0.000,+0.004]
+[INFO] [1774825984.068670420] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=73.47 depth_valid=30/30 depth_samples=30/30 depth_med=0.245m depth_fb=0.245m twist_base=[-0.002,-0.009,-0.002,-0.000,+0.000,+0.003]
+[INFO] [1774825985.101872065] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=54.77 depth_valid=30/30 depth_samples=30/30 depth_med=0.243m depth_fb=0.243m twist_base=[-0.002,-0.006,-0.001,-0.000,+0.000,+0.002]
+[INFO] [1774825986.135405235] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=72.15 depth_valid=30/30 depth_samples=30/30 depth_med=0.242m depth_fb=0.242m twist_base=[-0.002,-0.009,-0.002,-0.000,+0.000,+0.008]
+[INFO] [1774825987.168525057] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=54.76 depth_valid=30/30 depth_samples=30/30 depth_med=0.239m depth_fb=0.239m twist_base=[-0.001,-0.007,-0.003,-0.000,+0.000,+0.007]
+[INFO] [1774825988.201990549] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=43.05 depth_valid=30/30 depth_samples=30/30 depth_med=0.237m depth_fb=0.237m twist_base=[-0.001,-0.005,-0.002,-0.000,+0.000,+0.006]
+[INFO] [1774825989.204418083] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=40.10 depth_valid=30/30 depth_samples=30/30 depth_med=0.236m depth_fb=0.236m twist_base=[-0.001,-0.005,-0.002,-0.000,+0.000,+0.005]
+[INFO] [1774825990.235162923] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=29.34 depth_valid=30/30 depth_samples=30/30 depth_med=0.234m depth_fb=0.234m twist_base=[-0.001,-0.003,-0.001,-0.000,+0.000,+0.005]
+[INFO] [1774825991.268591283] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=24.59 depth_valid=30/30 depth_samples=30/30 depth_med=0.233m depth_fb=0.233m twist_base=[-0.000,-0.003,-0.002,-0.000,+0.000,+0.003]
+[INFO] [1774825992.269545435] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=16.02 depth_valid=30/30 depth_samples=30/30 depth_med=0.232m depth_fb=0.232m twist_base=[-0.000,-0.002,-0.001,-0.000,+0.000,+0.000]
+[INFO] [1774825993.301956472] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=4.67 depth_valid=30/30 depth_samples=30/30 depth_med=0.231m depth_fb=0.231m twist_base=[-0.000,-0.000,-0.000,-0.000,+0.000,+0.001]
+[INFO] [1774825994.305239039] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=7.35 depth_valid=30/30 depth_samples=30/30 depth_med=0.231m depth_fb=0.231m twist_base=[+0.000,+0.001,-0.000,+0.000,-0.000,-0.002]
+[INFO] [1774825995.335913308] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=8.10 depth_valid=30/30 depth_samples=30/30 depth_med=0.231m depth_fb=0.231m twist_base=[+0.000,+0.001,-0.000,+0.000,-0.000,-0.003]
+[INFO] [1774825996.369155082] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=7.13 depth_valid=30/30 depth_samples=30/30 depth_med=0.231m depth_fb=0.231m twist_base=[+0.000,+0.001,-0.000,+0.000,-0.000,-0.003]
+[INFO] [1774825997.401960730] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=8.11 depth_valid=30/30 depth_samples=30/30 depth_med=0.230m depth_fb=0.230m twist_base=[+0.001,+0.001,-0.000,+0.000,-0.000,-0.003]
+[INFO] [1774825998.403848838] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=7.20 depth_valid=30/30 depth_samples=30/30 depth_med=0.230m depth_fb=0.230m twist_base=[+0.000,+0.001,-0.000,+0.000,-0.000,-0.002]
+[INFO] [1774825999.435196283] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=4.42 depth_valid=30/30 depth_samples=30/30 depth_med=0.230m depth_fb=0.230m twist_base=[+0.000,+0.000,+0.000,+0.000,-0.000,-0.001]
+[INFO] [1774826000.467836928] [ibvs_twist_controller_node]: Goal reached: source=filtered rms_px=3.84, points=30.
+[INFO] [1774826001.468072599] [ibvs_twist_controller_node]: Goal reached: source=filtered rms_px=3.82, points=30.
+[INFO] [1774826002.468947452] [ibvs_twist_controller_node]: Goal reached: source=filtered rms_px=2.52, points=30.
+[INFO] [1774826003.401087999] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 928, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 762, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 745, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 642, in _wait_for_ready_callbacks
+    wait_set.wait(timeout_nsec)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_control/ibvs_twist_controller", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-control', 'console_scripts', 'ibvs_twist_controller')())
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 930, in main
+    node.publish_zero_twist()
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 732, in publish_zero_twist
+    self.twist_pub.publish(Twist())
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[ros2run]: Process exited with failure 1
+
+[2026-03-30 01:13:26] STOP ibvs_controller
+
+[2026-03-30 01:13:44] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=filtered -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774826025.978993097] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=filtered
+[INFO] [1774826025.979422819] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774826025.979986817] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774826025.980463871] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774826025.980916909] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774826025.981400304] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774826025.981914298] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774826025.984076980] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[INFO] [1774826025.996187377] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[INFO] [1774826026.463149238] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[WARN] [1774826026.665251699] [ibvs_twist_controller_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774826026.962863490] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774826029.531028827] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=244.29 depth_valid=30/30 depth_samples=30/30 depth_med=0.250m depth_fb=0.250m twist_base=[+0.017,-0.007,+0.003,+0.001,-0.001,-0.119]
+[INFO] [1774826030.563341906] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=213.26 depth_valid=30/30 depth_samples=30/30 depth_med=0.251m depth_fb=0.251m twist_base=[+0.013,-0.011,-0.000,+0.001,-0.001,-0.093]
+[INFO] [1774826031.563417737] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=180.33 depth_valid=30/30 depth_samples=30/30 depth_med=0.250m depth_fb=0.250m twist_base=[+0.009,-0.014,-0.002,+0.000,-0.000,-0.071]
+[INFO] [1774826032.596786924] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=143.13 depth_valid=30/30 depth_samples=30/30 depth_med=0.248m depth_fb=0.248m twist_base=[+0.006,-0.015,-0.002,+0.000,-0.000,-0.053]
+[INFO] [1774826033.630123307] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=107.34 depth_valid=30/30 depth_samples=30/30 depth_med=0.246m depth_fb=0.246m twist_base=[+0.003,-0.012,-0.002,+0.000,-0.000,-0.040]
+[INFO] [1774826034.663380538] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=80.53 depth_valid=30/30 depth_samples=30/30 depth_med=0.243m depth_fb=0.243m twist_base=[+0.002,-0.009,-0.002,+0.000,-0.000,-0.030]
+[INFO] [1774826035.663404815] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=61.27 depth_valid=30/30 depth_samples=30/30 depth_med=0.242m depth_fb=0.242m twist_base=[+0.001,-0.007,-0.002,+0.000,-0.000,-0.023]
+[INFO] [1774826036.696782054] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=46.60 depth_valid=30/30 depth_samples=30/30 depth_med=0.240m depth_fb=0.240m twist_base=[+0.001,-0.005,-0.001,+0.000,-0.000,-0.017]
+[INFO] [1774826037.697468733] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=36.24 depth_valid=30/30 depth_samples=30/30 depth_med=0.239m depth_fb=0.239m twist_base=[+0.000,-0.004,-0.001,+0.000,-0.000,-0.013]
+[INFO] [1774826038.730102668] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=28.56 depth_valid=30/30 depth_samples=30/30 depth_med=0.238m depth_fb=0.238m twist_base=[+0.000,-0.003,-0.001,+0.000,-0.000,-0.010]
+[INFO] [1774826039.730194876] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=23.37 depth_valid=30/30 depth_samples=30/30 depth_med=0.237m depth_fb=0.237m twist_base=[+0.000,-0.002,-0.001,+0.000,-0.000,-0.007]
+[INFO] [1774826040.763497387] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=113.80 depth_valid=30/30 depth_samples=30/30 depth_med=0.371m depth_fb=0.370m twist_base=[-0.003,-0.018,-0.006,+0.000,-0.000,-0.007]
+[INFO] [1774826041.796703170] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=102.21 depth_valid=30/30 depth_samples=30/30 depth_med=0.364m depth_fb=0.365m twist_base=[-0.004,-0.018,-0.005,+0.000,-0.000,-0.002]
+[INFO] [1774826042.796805820] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=93.36 depth_valid=30/30 depth_samples=30/30 depth_med=0.359m depth_fb=0.359m twist_base=[-0.003,-0.016,-0.005,+0.000,-0.000,-0.005]
+[INFO] [1774826043.796755356] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=82.37 depth_valid=30/30 depth_samples=30/30 depth_med=0.354m depth_fb=0.354m twist_base=[-0.002,-0.014,-0.005,+0.000,-0.000,-0.003]
+[INFO] [1774826044.830061710] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=61.61 depth_valid=30/30 depth_samples=30/30 depth_med=0.349m depth_fb=0.350m twist_base=[-0.002,-0.010,-0.004,+0.000,-0.000,-0.003]
+[INFO] [1774826045.830060042] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=46.63 depth_valid=30/30 depth_samples=30/30 depth_med=0.346m depth_fb=0.346m twist_base=[-0.001,-0.008,-0.003,+0.000,-0.000,-0.002]
+[INFO] [1774826046.864455691] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=35.11 depth_valid=30/30 depth_samples=30/30 depth_med=0.344m depth_fb=0.344m twist_base=[-0.001,-0.006,-0.002,+0.000,-0.000,-0.001]
+[INFO] [1774826047.896887874] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=26.61 depth_valid=30/30 depth_samples=30/30 depth_med=0.342m depth_fb=0.342m twist_base=[-0.001,-0.004,-0.002,+0.000,-0.000,-0.001]
+[INFO] [1774826048.930049999] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=20.42 depth_valid=30/30 depth_samples=30/30 depth_med=0.340m depth_fb=0.340m twist_base=[-0.001,-0.003,-0.001,+0.000,-0.000,-0.001]
+[INFO] [1774826049.930089636] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=16.08 depth_valid=30/30 depth_samples=30/30 depth_med=0.339m depth_fb=0.339m twist_base=[-0.000,-0.002,-0.001,+0.000,-0.000,-0.001]
+[INFO] [1774826050.931118146] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=13.00 depth_valid=30/30 depth_samples=30/30 depth_med=0.339m depth_fb=0.339m twist_base=[-0.000,-0.002,-0.001,+0.000,-0.000,-0.000]
+[INFO] [1774826051.965286346] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=10.87 depth_valid=30/30 depth_samples=30/30 depth_med=0.338m depth_fb=0.338m twist_base=[-0.000,-0.001,-0.000,+0.000,-0.000,-0.000]
+[INFO] [1774826052.996766745] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=9.37 depth_valid=30/30 depth_samples=30/30 depth_med=0.338m depth_fb=0.338m twist_base=[-0.000,-0.001,-0.000,+0.000,-0.000,-0.000]
+[INFO] [1774826054.030061465] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=8.47 depth_valid=30/30 depth_samples=30/30 depth_med=0.337m depth_fb=0.337m twist_base=[-0.000,-0.001,-0.000,+0.000,-0.000,-0.000]
+[INFO] [1774826055.030087524] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=7.93 depth_valid=30/30 depth_samples=30/30 depth_med=0.337m depth_fb=0.337m twist_base=[-0.000,-0.001,-0.000,+0.000,-0.000,-0.000]
+[INFO] [1774826056.030144091] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=7.61 depth_valid=30/30 depth_samples=30/30 depth_med=0.337m depth_fb=0.337m twist_base=[-0.000,-0.000,-0.000,+0.000,-0.000,-0.000]
+[INFO] [1774826057.063437042] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=61.44 depth_valid=30/30 depth_samples=30/30 depth_med=0.338m depth_fb=0.338m twist_base=[+0.002,+0.009,+0.002,+0.000,-0.000,-0.003]
+[INFO] [1774826058.063461542] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=55.94 depth_valid=30/30 depth_samples=30/30 depth_med=0.340m depth_fb=0.340m twist_base=[+0.002,+0.009,+0.002,+0.000,-0.000,-0.003]
+[INFO] [1774826059.063485587] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=57.26 depth_valid=30/30 depth_samples=30/30 depth_med=0.343m depth_fb=0.343m twist_base=[+0.002,+0.009,+0.004,+0.000,-0.000,-0.003]
+[INFO] [1774826060.101661321] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=32.05 depth_valid=30/30 depth_samples=30/30 depth_med=0.346m depth_fb=0.346m twist_base=[+0.001,+0.005,+0.002,+0.000,-0.000,-0.004]
+[INFO] [1774826060.529307447] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 928, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 762, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 745, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 642, in _wait_for_ready_callbacks
+    wait_set.wait(timeout_nsec)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_control/ibvs_twist_controller", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-control', 'console_scripts', 'ibvs_twist_controller')())
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 930, in main
+    node.publish_zero_twist()
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 732, in publish_zero_twist
+    self.twist_pub.publish(Twist())
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[ros2run]: Process exited with failure 1
+
+[2026-03-30 01:14:25] STOP ibvs_controller
+
+[2026-03-30 01:14:47] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=filtered -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774826089.648844618] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=filtered
+[INFO] [1774826089.649122025] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774826089.649328180] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774826089.649526849] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774826089.649767287] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774826089.650056678] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774826089.650325872] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774826089.651760432] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[INFO] [1774826089.664189609] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[INFO] [1774826090.131005141] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[INFO] [1774826090.131318252] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774826092.932596483] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=246.70 depth_valid=30/30 depth_samples=30/30 depth_med=0.250m depth_fb=0.250m twist_base=[+0.015,-0.008,-0.001,+0.001,-0.001,-0.114]
+[INFO] [1774826093.964952397] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=215.67 depth_valid=30/30 depth_samples=30/30 depth_med=0.247m depth_fb=0.248m twist_base=[+0.011,-0.012,-0.003,+0.001,-0.001,-0.088]
+[INFO] [1774826094.998168194] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=180.39 depth_valid=30/30 depth_samples=30/30 depth_med=0.243m depth_fb=0.244m twist_base=[+0.008,-0.014,-0.004,+0.000,-0.000,-0.065]
+[INFO] [1774826095.998184357] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=142.37 depth_valid=30/30 depth_samples=30/30 depth_med=0.239m depth_fb=0.240m twist_base=[+0.006,-0.015,-0.004,+0.000,-0.000,-0.049]
+[INFO] [1774826097.031500891] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=106.14 depth_valid=30/30 depth_samples=30/30 depth_med=0.236m depth_fb=0.236m twist_base=[+0.003,-0.012,-0.003,+0.000,-0.000,-0.036]
+[INFO] [1774826098.064830196] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=79.12 depth_valid=30/30 depth_samples=30/30 depth_med=0.233m depth_fb=0.233m twist_base=[+0.002,-0.008,-0.002,+0.000,-0.000,-0.027]
+[INFO] [1774826099.064880824] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=59.57 depth_valid=30/30 depth_samples=30/30 depth_med=0.231m depth_fb=0.231m twist_base=[+0.001,-0.006,-0.002,+0.000,-0.000,-0.020]
+[INFO] [1774826100.064998955] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=44.88 depth_valid=30/30 depth_samples=30/30 depth_med=0.229m depth_fb=0.229m twist_base=[+0.000,-0.005,-0.001,+0.000,-0.000,-0.016]
+[INFO] [1774826101.098309080] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=33.53 depth_valid=30/30 depth_samples=30/30 depth_med=0.228m depth_fb=0.228m twist_base=[+0.000,-0.003,-0.001,+0.000,-0.000,-0.012]
+[INFO] [1774826102.100241035] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=25.34 depth_valid=30/30 depth_samples=30/30 depth_med=0.227m depth_fb=0.227m twist_base=[+0.000,-0.003,-0.001,+0.000,-0.000,-0.009]
+[INFO] [1774826103.132232305] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=19.06 depth_valid=30/30 depth_samples=30/30 depth_med=0.226m depth_fb=0.226m twist_base=[+0.000,-0.002,-0.001,+0.000,-0.000,-0.007]
+[INFO] [1774826104.165532375] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=106.12 depth_valid=30/30 depth_samples=30/30 depth_med=0.249m depth_fb=0.249m twist_base=[-0.001,-0.012,-0.001,+0.000,-0.000,-0.008]
+[INFO] [1774826105.198201500] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=87.88 depth_valid=30/30 depth_samples=30/30 depth_med=0.248m depth_fb=0.248m twist_base=[-0.001,-0.010,-0.001,+0.000,-0.000,-0.006]
+[INFO] [1774826106.198308193] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=66.66 depth_valid=30/30 depth_samples=30/30 depth_med=0.247m depth_fb=0.247m twist_base=[-0.001,-0.007,-0.000,+0.000,-0.000,-0.005]
+[INFO] [1774826107.231479553] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=66.11 depth_valid=30/30 depth_samples=30/30 depth_med=0.246m depth_fb=0.246m twist_base=[-0.001,-0.007,-0.001,+0.000,-0.000,-0.006]
+[INFO] [1774826108.231641162] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=56.28 depth_valid=30/30 depth_samples=30/30 depth_med=0.245m depth_fb=0.245m twist_base=[-0.001,-0.006,-0.001,+0.000,-0.000,-0.005]
+[INFO] [1774826109.264876121] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=47.40 depth_valid=30/30 depth_samples=30/30 depth_med=0.243m depth_fb=0.243m twist_base=[-0.000,-0.005,-0.002,+0.000,-0.000,-0.006]
+[INFO] [1774826110.264890160] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=26.10 depth_valid=30/30 depth_samples=30/30 depth_med=0.242m depth_fb=0.242m twist_base=[+0.000,-0.003,-0.001,+0.000,-0.000,-0.005]
+[INFO] [1774826111.298156926] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=24.78 depth_valid=30/30 depth_samples=30/30 depth_med=0.240m depth_fb=0.240m twist_base=[+0.000,-0.003,-0.002,+0.000,-0.000,-0.004]
+[INFO] [1774826112.299490173] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=19.83 depth_valid=30/30 depth_samples=30/30 depth_med=0.238m depth_fb=0.238m twist_base=[-0.000,-0.002,-0.002,+0.000,-0.000,-0.002]
+[INFO] [1774826113.332737817] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=11.41 depth_valid=30/30 depth_samples=30/30 depth_med=0.237m depth_fb=0.237m twist_base=[-0.000,-0.001,-0.001,-0.000,+0.000,+0.001]
+[INFO] [1774826114.333189739] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=6.49 depth_valid=30/30 depth_samples=30/30 depth_med=0.236m depth_fb=0.236m twist_base=[-0.000,-0.001,-0.000,+0.000,-0.000,-0.001]
+[INFO] [1774826115.364951581] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=6.31 depth_valid=30/30 depth_samples=30/30 depth_med=0.235m depth_fb=0.235m twist_base=[-0.000,-0.001,-0.001,-0.000,+0.000,+0.000]
+[INFO] [1774826116.365009505] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=4.15 depth_valid=30/30 depth_samples=30/30 depth_med=0.235m depth_fb=0.235m twist_base=[+0.000,-0.000,-0.001,+0.000,-0.000,-0.002]
+[INFO] [1774826117.397504924] [ibvs_twist_controller_node]: Goal reached: source=filtered rms_px=3.45, points=30.
+[INFO] [1774826117.697474020] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 928, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 762, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 745, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 642, in _wait_for_ready_callbacks
+    wait_set.wait(timeout_nsec)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_control/ibvs_twist_controller", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-control', 'console_scripts', 'ibvs_twist_controller')())
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 930, in main
+    node.publish_zero_twist()
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 732, in publish_zero_twist
+    self.twist_pub.publish(Twist())
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[ros2run]: Process exited with failure 1
+
+[2026-03-30 01:15:21] STOP ibvs_controller
+
+[2026-03-30 01:15:41] START ibvs_controller
+CMD: ros2 run ibvs_control ibvs_twist_controller --ros-args -p enable_motion:=false -p publish_wx_debug:=true -p feature_source:=filtered -p lambda_gain:=0.28 -p max_linear_speed:=0.018 -p max_angular_speed:=0.12 -p smooth_cmd_enable:=true -p smooth_cmd_use_median:=true -p smooth_cmd_median_window:=3 -p smooth_cmd_ema_alpha:=0.45 -p smooth_cmd_max_linear_accel:=0.12 -p smooth_cmd_max_angular_accel:=1.0 -p allow_wx:=false -p allow_wy:=false
+
+[INFO] [1774826143.349961622] [ibvs_twist_controller_node]: Sub raw=/ibvs/matches Sub filtered=/ibvs/filtered_features feature_source=filtered
+[INFO] [1774826143.350532492] [ibvs_twist_controller_node]: Depth fallback: mode=ema alpha=0.35 init=0.250m
+[INFO] [1774826143.351103133] [ibvs_twist_controller_node]: Sub ref=/ibvs/reference/keypoints
+[INFO] [1774826143.351603254] [ibvs_twist_controller_node]: Pub twist=/cartesian_twist_passthrough_controller/cmd_vel
+[INFO] [1774826143.352007753] [ibvs_twist_controller_node]: Pub wx debug=/ibvs/control/wx_debug
+[INFO] [1774826143.352514470] [ibvs_twist_controller_node]: Cmd smoothing: enable=True median=True w=3 alpha=0.45
+[INFO] [1774826143.353043948] [ibvs_twist_controller_node]: TF command conversion: camera=camera_color_optical_frame tcp=tool0 base=base
+[INFO] [1774826143.355449603] [ibvs_twist_controller_node]: Reference cached for control: K=300
+[INFO] [1774826143.360785779] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+[INFO] [1774826143.827447594] [ibvs_twist_controller_node]: TF ready (base <- tool0)
+[WARN] [1774826144.030066153] [ibvs_twist_controller_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[WARN] [1774826145.532900830] [ibvs_twist_controller_node]: TF lookup failed (tool0 <- camera_color_optical_frame): "camera_color_optical_frame" passed to lookupTransform argument source_frame does not exist. 
+[INFO] [1774826145.830732106] [ibvs_twist_controller_node]: TF ready (tool0 <- camera_color_optical_frame), p_tcp_cam=[-0.033,-0.112,+0.070]
+[INFO] [1774826145.928504793] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=247.75 depth_valid=30/30 depth_samples=30/30 depth_med=0.250m depth_fb=0.250m twist_base=[+0.015,-0.008,-0.001,+0.001,-0.001,-0.116]
+[INFO] [1774826146.961345894] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=216.51 depth_valid=30/30 depth_samples=30/30 depth_med=0.248m depth_fb=0.248m twist_base=[+0.012,-0.011,-0.003,+0.001,-0.001,-0.089]
+[INFO] [1774826147.994698577] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=181.03 depth_valid=30/30 depth_samples=30/30 depth_med=0.244m depth_fb=0.244m twist_base=[+0.010,-0.013,-0.004,+0.000,-0.000,-0.066]
+[INFO] [1774826148.994691220] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=153.49 depth_valid=30/30 depth_samples=30/30 depth_med=0.241m depth_fb=0.241m twist_base=[+0.009,-0.014,-0.004,+0.000,-0.000,-0.053]
+[INFO] [1774826150.028001988] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=115.51 depth_valid=30/30 depth_samples=30/30 depth_med=0.237m depth_fb=0.238m twist_base=[+0.006,-0.011,-0.003,+0.000,-0.000,-0.040]
+[INFO] [1774826151.061345057] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=86.74 depth_valid=30/30 depth_samples=30/30 depth_med=0.234m depth_fb=0.235m twist_base=[+0.004,-0.008,-0.003,+0.000,-0.000,-0.030]
+[INFO] [1774826152.061396815] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=65.89 depth_valid=30/30 depth_samples=30/30 depth_med=0.232m depth_fb=0.232m twist_base=[+0.003,-0.006,-0.002,+0.000,-0.000,-0.022]
+[INFO] [1774826153.061446072] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=49.77 depth_valid=30/30 depth_samples=30/30 depth_med=0.230m depth_fb=0.230m twist_base=[+0.001,-0.005,-0.002,+0.000,-0.000,-0.017]
+[INFO] [1774826154.094813091] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=37.18 depth_valid=30/30 depth_samples=30/30 depth_med=0.229m depth_fb=0.229m twist_base=[+0.001,-0.004,-0.001,+0.000,-0.000,-0.013]
+[INFO] [1774826155.096930045] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=28.35 depth_valid=30/30 depth_samples=30/30 depth_med=0.228m depth_fb=0.228m twist_base=[+0.000,-0.003,-0.001,+0.000,-0.000,-0.010]
+[INFO] [1774826156.127981940] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=21.09 depth_valid=30/30 depth_samples=30/30 depth_med=0.227m depth_fb=0.227m twist_base=[+0.000,-0.002,-0.001,+0.000,-0.000,-0.007]
+[INFO] [1774826157.128535838] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=16.08 depth_valid=30/30 depth_samples=30/30 depth_med=0.226m depth_fb=0.226m twist_base=[+0.000,-0.001,-0.001,+0.000,-0.000,-0.006]
+[INFO] [1774826158.135525347] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=12.38 depth_valid=30/30 depth_samples=30/30 depth_med=0.226m depth_fb=0.226m twist_base=[+0.000,-0.001,-0.000,+0.000,-0.000,-0.004]
+[INFO] [1774826159.161375035] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=9.60 depth_valid=30/30 depth_samples=30/30 depth_med=0.225m depth_fb=0.225m twist_base=[+0.000,-0.001,-0.000,+0.000,-0.000,-0.003]
+[INFO] [1774826160.161447185] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=7.68 depth_valid=30/30 depth_samples=30/30 depth_med=0.225m depth_fb=0.225m twist_base=[+0.000,-0.001,-0.000,+0.000,-0.000,-0.002]
+[INFO] [1774826161.162389986] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=6.34 depth_valid=30/30 depth_samples=30/30 depth_med=0.225m depth_fb=0.225m twist_base=[+0.000,-0.000,-0.000,+0.000,-0.000,-0.002]
+[INFO] [1774826162.194755886] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=5.42 depth_valid=30/30 depth_samples=30/30 depth_med=0.225m depth_fb=0.225m twist_base=[+0.000,-0.000,-0.000,+0.000,-0.000,-0.001]
+[INFO] [1774826163.227318379] [ibvs_twist_controller_node]: Goal reached: source=filtered rms_px=5.06, points=30.
+[INFO] [1774826164.227536504] [ibvs_twist_controller_node]: Goal reached: source=filtered rms_px=5.06, points=30.
+[INFO] [1774826165.229068817] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=5.01 depth_valid=30/30 depth_samples=30/30 depth_med=0.225m depth_fb=0.225m twist_base=[+0.000,-0.000,-0.000,+0.000,-0.000,-0.001]
+[INFO] [1774826166.261401286] [ibvs_twist_controller_node]: IBVS active: source=filtered points=30 rms_px=4.58 depth_valid=30/30 depth_samples=30/30 depth_med=0.224m depth_fb=0.224m twist_base=[+0.000,-0.000,-0.000,+0.000,-0.000,-0.001]
+[INFO] [1774826167.297288769] [ibvs_twist_controller_node]: Goal reached: source=filtered rms_px=4.53, points=30.
+[INFO] [1774826167.627206221] [ibvs_twist_controller_node]: Motion disabled (enable_motion=false).
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 928, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 762, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 745, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 642, in _wait_for_ready_callbacks
+    wait_set.wait(timeout_nsec)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_control/ibvs_twist_controller", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-control', 'console_scripts', 'ibvs_twist_controller')())
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 930, in main
+    node.publish_zero_twist()
+  File "/home/ros_ws/build/ibvs_control/ibvs_control/ibvs_twist_controller_node.py", line 732, in publish_zero_twist
+    self.twist_pub.publish(Twist())
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[ros2run]: Process exited with failure 1
+
+[2026-03-30 01:16:12] STOP ibvs_controller

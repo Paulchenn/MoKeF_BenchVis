@@ -1,0 +1,55 @@
+
+[2026-03-29 23:31:15] START keypoint
+CMD: ros2 run ibvs_perception keypoint --ros-args -p detector_type:=xfeat -p device:=cuda -p top_k:=1024 -p debug_mode:=false -p input_topic:=/camera/camera/color/image_raw/compressed -p depth_topic:=/camera/camera/aligned_depth_to_color/image_raw/compressedDepth -p use_depth_roi:=true -p keypoints_topic:=/ibvs/keypoints
+
+/home/ros_ws/third_party/accelerated_features/modules/xfeat.py:33: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.net.load_state_dict(torch.load(weights, map_location=self.dev))
+[INFO] [1774819877.143205363] [keypoint_node]: Using detector: xfeat (XFeatDetector)
+[INFO] [1774819877.166318388] [keypoint_node]: Subscribing color: /camera/camera/color/image_raw/compressed (compressed)
+[INFO] [1774819877.166552262] [keypoint_node]: Subscribing depth: /camera/camera/aligned_depth_to_color/image_raw/compressedDepth (compressed)
+[INFO] [1774819877.166757406] [keypoint_node]: Publishing keypoints: /ibvs/keypoints
+[INFO] [1774819877.166956147] [keypoint_node]: Debug mode disabled.
+[INFO] [1774819877.167160230] [keypoint_node]: Depth-to-keypoints: on (max_age=0.20s)
+loading weights from: /home/ros_ws/third_party/accelerated_features/modules/../weights/xfeat.pt
+Traceback (most recent call last):
+  File "/home/ros_ws/build/ibvs_perception/ibvs_perception/keypoint_node.py", line 484, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 773, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 768, in _spin_once_impl
+    handler()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/task.py", line 254, in __call__
+    self._handler.send(None)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 463, in handler
+    await call_coroutine(entity, arg)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 382, in _execute_subscription
+    await await_or_execute(sub.callback, msg)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 107, in await_or_execute
+    return callback(*args)
+  File "/home/ros_ws/build/ibvs_perception/ibvs_perception/keypoint_node.py", line 333, in on_depth
+    depth_raw = self._decode_depth(msg)
+  File "/home/ros_ws/build/ibvs_perception/ibvs_perception/keypoint_node.py", line 188, in _decode_depth
+    return self._decode_compressed_depth_payload(msg)
+  File "/home/ros_ws/build/ibvs_perception/ibvs_perception/keypoint_node.py", line 158, in _decode_compressed_depth_payload
+    depth_img = cv2.imdecode(payload, cv2.IMREAD_UNCHANGED)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ros_ws/install/lib/ibvs_perception/keypoint", line 33, in <module>
+    sys.exit(load_entry_point('ibvs-perception', 'console_scripts', 'keypoint')())
+  File "/home/ros_ws/build/ibvs_perception/ibvs_perception/keypoint_node.py", line 487, in main
+    rclpy.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+    _shutdown(context=context)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+    return context.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+    self.__context.shutdown()
+rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[ros2run]: Process exited with failure 1
+
+[2026-03-30 00:11:38] STOP keypoint
