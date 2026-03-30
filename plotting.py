@@ -7,6 +7,7 @@ from pathlib import Path
 import pandas as pd
 import logging
 import re
+import numpy as np
 
 # Configure LaTeX/PGF settings
 matplotlib.rcParams.update({
@@ -91,9 +92,41 @@ def plot_benchmark_metrics(benchmark_df: pd.DataFrame, benchmark_name: str, outp
             continue
 
         fig, ax = plt.subplots(figsize=(8, 5))
+        plot_df = benchmark_df
+        current_legend_labels = legend_labels_sorted
         
+        if metric == "ibvs_rms_px":
+            ax.axhline(y=20, color='r', linestyle='--', linewidth=1)
+            
+            # Create a copy to modify labels just for this plot
+            plot_df = benchmark_df.copy()
+            new_labels = {}
+            if 'normalized_time' in plot_df.columns:
+                for run_id, run_group in plot_df.groupby('run_id'):
+                    label = run_group['legend_label'].iloc[0]
+                    run_group = run_group.sort_values('normalized_time')
+                    above_mask = run_group['ibvs_rms_px'] > 20
+                    
+                    if not above_mask.any():
+                        settling_time = 0.0
+                    else:
+                        last_true_index = above_mask[above_mask].index[-1]
+                        loc = run_group.index.get_loc(last_true_index)
+                        if loc + 1 < len(run_group):
+                            settling_time = run_group.iloc[loc + 1]['normalized_time']
+                        else:
+                            settling_time = None # Never settled
+                    
+                    if settling_time is not None:
+                        new_labels[run_id] = f"{label} (settles at {settling_time:.2f}s)"
+                    else:
+                        new_labels[run_id] = f"{label} (never settles)"
+                
+                plot_df['legend_label'] = plot_df['run_id'].map(new_labels)
+                current_legend_labels = sorted(plot_df['legend_label'].unique())
+
         # estimator=None forces Seaborn to draw a separate, raw curve for each run_id without averaging
-        sns.lineplot(data=benchmark_df, x=x_col, y=metric, hue='legend_label', hue_order=legend_labels_sorted, estimator=None, ax=ax)
+        sns.lineplot(data=plot_df, x=x_col, y=metric, hue='legend_label', hue_order=current_legend_labels, estimator=None, ax=ax)
         
         metric_pretty = metric.replace('_', ' ').upper()
         bench_split = benchmark_name.split("_")
@@ -128,19 +161,16 @@ def plot_benchmark_summary_bars(benchmark_df: pd.DataFrame, benchmark_name: str,
     for run_id, group in benchmark_df.groupby('run_id'):
         legend_label = group['legend_label'].iloc[0]
         
-        # Success Rate (1 or 0)
+        # Success Rate (1 or 0) - based on pre-calculated 'goal_reached' column
         if 'goal_reached' in group.columns:
-            is_success_mask = group['goal_reached'].astype(str).str.lower().isin(['1', 'true', 'yes', 'y'])
-            is_success = is_success_mask.any()
-            success = 1.0 if is_success else 0.0
-            
-            if is_success:
-                time_to_goal = group.loc[is_success_mask, x_col].min()
-            else:
-                time_to_goal = group[x_col].max()
+            # Success is a pre-calculated int (1 or 0) constant for the whole run
+            is_success = group['goal_reached'].iloc[0] == 1
         else:
-            success = 0.0
-            time_to_goal = group[x_col].max()
+            is_success = False # Default to failure if column is missing
+        
+        success = 1.0 if is_success else 0.0
+        # The time taken is simply the total duration of the run's data.
+        time_to_goal = group[x_col].max() if not group.empty else 0.0
             
         # Mean IBVS RMS
         mean_rms = group['ibvs_rms_px'].mean() if 'ibvs_rms_px' in group.columns else 0.0
@@ -164,7 +194,6 @@ def plot_benchmark_summary_bars(benchmark_df: pd.DataFrame, benchmark_name: str,
     bench_split = benchmark_name.split("_")
     axes[0].set_title(f"Stufe: {bench_split[1]} | Szen.: {bench_split[2]} | Filter: {bench_split[3]} | Level: {bench_split[0]} | Bauteil: {bench_split[4]}\nRun Summaries")
     axes[0].set_ylabel("Success Rate")
-    axes[0].set_ylim(0, 1.1)
     
     sns.barplot(data=summary_df, x='Run', y='Time to Goal', ax=axes[1], color='tab:orange')
     axes[1].set_ylabel(f"Time to Goal ({'s' if x_col == 'normalized_time' else 'steps'})")
@@ -180,6 +209,18 @@ def plot_benchmark_summary_bars(benchmark_df: pd.DataFrame, benchmark_name: str,
         ax.tick_params(axis='x', rotation=45)
         ax.grid(axis='y', alpha=0.3)
         
+        # Add numerical value annotations on top of each bar
+        for patch in ax.patches:
+            val = patch.get_height()
+            if not pd.isna(val):
+                ax.text(patch.get_x() + patch.get_width() / 2., val, 
+                        f"${val:.4f}$", ha='center', va='bottom', fontsize=8)
+                        
+        # Expand Y-axis to make room for text
+        ymin, ymax = ax.get_ylim()
+        ax.set_ylim(ymin, ymax + (ymax - ymin) * 0.15)
+        
+    axes[0].set_ylim(0, 1.25) # Success rate limit manually adjusted to fit text
     axes[-1].set_xlabel("Run")
     fig.tight_layout()
     
@@ -198,19 +239,25 @@ def plot_comparison_summary_bars(comparison_df: pd.DataFrame, comparison_name: s
     for run_id, group in comparison_df.groupby('run_id'):
         stage_filter = group['Stage_Filter'].iloc[0]
         
-        # Averages calculated by assuming 0 for padded steps up to max_steps (timeout)
-        mean_vel = group['ibvs_lin_vel_l2'].sum() / max_steps if 'ibvs_lin_vel_l2' in group.columns else 0.0
-        mean_acc = group['ibvs_lin_acc_l2'].sum() / max_steps if 'ibvs_lin_acc_l2' in group.columns else 0.0
+        is_success = group['goal_reached'].iloc[0] == 1 if 'goal_reached' in group.columns else False
+        success_rate = 1.0 if is_success else 0.0
+
+        # These metrics are ONLY calculated for successful runs. For failed runs, they are NaN and ignored by seaborn.
+        mean_vel = group['ibvs_lin_vel_l2'].sum() / max_steps if is_success and 'ibvs_lin_vel_l2' in group.columns else np.nan
+        mean_acc = group['ibvs_lin_acc_l2'].sum() / max_steps if is_success and 'ibvs_lin_acc_l2' in group.columns else np.nan
+        final_path = group['path_length'].iloc[-1] if is_success and 'path_length' in group.columns else np.nan
+        
+        # These metrics are calculated for ALL runs. Averages are padded to max_steps for fairness.
         mean_rms = group['ibvs_rms_px'].sum() / max_steps if 'ibvs_rms_px' in group.columns else 0.0
         
         # Final/Maximum summary values achieved by the end of the run
         final_reject = group['filter_reject_count'].iloc[-1] if 'filter_reject_count' in group.columns else 0.0
-        final_path = group['path_length'].iloc[-1] if 'path_length' in group.columns else 0.0
         final_rescue = group['local_rescue_success_delta'].iloc[-1] if 'local_rescue_success_delta' in group.columns else 0.0
         
         summary_records.append({
             'Run ID': run_id,
             'Configuration': stage_filter,
+            'Success Rate': success_rate,
             'Mean IBVS Lin Vel': mean_vel,
             'Mean IBVS Lin Acc': mean_acc,
             'Mean IBVS RMS': mean_rms,
@@ -225,27 +272,161 @@ def plot_comparison_summary_bars(comparison_df: pd.DataFrame, comparison_name: s
     title_base = f"Level: {comp_split[0]} | Szen.: {comp_split[1]} | Bauteil: {comp_split[2]}"
     
     metrics_to_plot = [
-        ('Mean IBVS Lin Vel', 'Mean Lin Vel (m/s)', 'tab:cyan'),
-        ('Mean IBVS Lin Acc', 'Mean Lin Acc (m/s²)', 'tab:blue'),
+        ('Success Rate', 'Success Rate', 'tab:pink'),
+        ('Mean IBVS Lin Vel', 'Mean Lin Vel (m/s) [SUCCESSFUL RUNS]', 'tab:cyan'),
+        ('Mean IBVS Lin Acc', 'Mean Lin Acc (m/s²) [SUCCESSFUL RUNS]', 'tab:blue'),
         ('Mean IBVS RMS', 'Mean RMS (px)', 'tab:orange'),
         ('Filter Reject Count', 'Filter Rejects (Final)', 'tab:green'),
-        ('Path Length', 'Path Length (m)', 'tab:red'),
+        ('Path Length', 'Path Length (m) [SUCCESSFUL RUNS]', 'tab:red'),
         ('Local Rescue Success', 'Local Rescues (Final)', 'tab:purple')
     ]
     
     for col_name, y_label, color in metrics_to_plot:
+        print(f"Plotting {col_name} for comparison {comparison_name}")
         fig, ax = plt.subplots(figsize=(8, 6))
         
-        sns.barplot(data=summary_df, x='Configuration', y=col_name, ax=ax, color=color)
+        # Use standard deviation for error bars to match the +/- text logic
+        sns.barplot(data=summary_df, x='Configuration', y=col_name, ax=ax, color=color, errorbar='sd', capsize=0.1)
+        if col_name == 'Mean IBVS RMS':
+            ax.axhline(y=20, color='r', linestyle='--', linewidth=1)
+
         ax.set_title(f"{title_base}\n{col_name}")
         ax.set_ylabel(y_label)
         ax.set_xlabel("Configuration (Stage - Filter)")
         ax.tick_params(axis='x', rotation=45)
         ax.grid(axis='y', alpha=0.3)
         
+        # Calculate stats for the +/- annotations
+        stats = summary_df.groupby('Configuration')[col_name].agg(['mean', 'std'])
+        
+        for patch, tick_label in zip(ax.patches, ax.get_xticklabels()):
+            print(f"patch: {patch}, tick_label: {tick_label}")
+            config = tick_label.get_text()
+            if config in stats.index:
+                print(f"config: {config}")
+                mean_val = stats.loc[config, 'mean']
+                std_val = stats.loc[config, 'std']
+                
+                if pd.isna(mean_val): continue
+                if pd.isna(std_val): std_val = 0.0
+                    
+                # Place text slightly above the error bar (mean + std)
+                y_pos = mean_val + std_val
+                ax.text(patch.get_x() + patch.get_width() / 2., y_pos, 
+                        f"${mean_val:.4f} \\pm {std_val:.4f}$", 
+                        ha='center', va='bottom', fontsize=8)
+                        
+        # Add headroom for the text annotations
+        ymin, ymax = ax.get_ylim()
+        ax.set_ylim(ymin, ymax + (ymax - ymin) * 0.15)
+        
         fig.tight_layout()
         safe_metric_name = col_name.replace(" ", "_").lower()
         export_plot(fig, comp_out_dir, f"{comp_name4save}_{safe_metric_name}")
+        
+def plot_comparison_timeseries(comparison_df: pd.DataFrame, comparison_name: str, output_dir: Path, global_limits: dict, max_steps: int):
+    """
+    Generates line plots showing the median over time for different Stage/Filter configurations.
+    Pads early-terminating runs (success) with 0 or forward-filled values up to the timeout (max_steps).
+    """
+    comp_name4save = comparison_name.replace(" ", "")
+    comp_out_dir = output_dir / "Comparisons" / str(comp_name4save)
+    comp_out_dir.mkdir(parents=True, exist_ok=True)
+    
+    x_col = global_limits['x_col']
+    x_label = global_limits['x_label']
+    
+    df_plot = comparison_df.copy()
+    # Create an aligned step index for the matrix pivot
+    df_plot['step'] = df_plot.groupby('run_id').cumcount()
+    
+    # Map step back to x_col (e.g. normalized_time) to maintain correct x-axis scale on the plot
+    step_to_time = df_plot.groupby('step')[x_col].median()
+    
+    if x_col != 'step' and max_steps > step_to_time.index.max():
+        # Extrapolate time for padded steps assuming constant dt
+        last_steps = step_to_time.dropna().iloc[-5:]
+        dt = last_steps.diff().median() if len(last_steps) > 1 else 0.1
+        missing_steps = range(int(step_to_time.index.max()) + 1, max_steps)
+        new_times = [step_to_time.iloc[-1] + (i * dt) for i in range(1, len(missing_steps) + 1)]
+        step_to_time = pd.concat([step_to_time, pd.Series(new_times, index=missing_steps)])
+        
+    metrics_to_plot = [
+        ("ibvs_lin_acc_l2", "Median Lin Acc (m/s²)"),
+        ("ibvs_lin_vel_l2", "Median Lin Vel (m/s)"),
+        ("ibvs_rms_px", "Median RMS (px)"),
+        ("path_length", "Median Path Length (m)")
+    ]
+    
+    comp_split = comparison_name.split("_")
+    title_base = f"Level: {comp_split[0]} | Szen.: {comp_split[1]} | Bauteil: {comp_split[2]}"
+
+    for metric, y_label in metrics_to_plot:
+        if metric not in df_plot.columns:
+            continue
+            
+        fig, ax = plt.subplots(figsize=(8, 5))
+        
+        if metric == 'ibvs_rms_px':
+            ax.axhline(y=20, color='r', linestyle='--', linewidth=1)
+
+        for config, group in df_plot.groupby('Stage_Filter'):
+            # Pivot to get a step x run_id matrix
+            pivot = group.pivot(index='step', columns='run_id', values=metric)
+            
+            # Reindex to force the matrix to extend exactly to the global timeout limit
+            pivot = pivot.reindex(range(max_steps))
+            
+            # Apply padding logic for runs that reached the goal early
+            if metric == 'path_length':
+                pivot = pivot.ffill()  # Distance stays at its final maximum value
+            else:
+                pivot = pivot.fillna(0.0)  # Velocities and Errors drop to 0
+            
+            # Calculate the median across all runs for this configuration at each time step
+            median_line = pivot.median(axis=1)
+            
+            label = config
+            if metric == 'ibvs_rms_px' and x_col == 'normalized_time':
+                above_threshold = median_line > 20
+                if not above_threshold.any():
+                    settling_time = 0.0
+                else:
+                    last_above_step = above_threshold[above_threshold].index.max()
+                    settling_step = last_above_step + 1
+                    
+                    if settling_step >= max_steps:
+                        settling_time = None # Never settled
+                    else:
+                        settling_time = step_to_time.get(settling_step)
+
+                if settling_time is not None:
+                    label = f"{config} (settles at {settling_time:.2f}s)"
+                else:
+                    label = f"{config} (never settles)"
+
+            # Map the steps back to the proper X-axis values for plotting
+            x_vals = median_line.index if x_col == 'step' else step_to_time.reindex(median_line.index).ffill().values
+                
+            ax.plot(x_vals, median_line.values, label=label)
+            
+        metric_pretty = metric.replace('_', ' ').upper()
+        ax.set_title(f"{title_base}\n{metric_pretty} (Median over time)")
+        ax.set_xlabel(x_label)
+        ax.set_ylabel(y_label)
+        
+        ax.set_xlim(left=0, right=global_limits['x_max'])
+        y_min = global_limits['y_mins'].get(metric, 0)
+        y_max = global_limits['y_maxs'].get(metric, 1)
+        margin = (y_max - y_min) * 0.05 if y_max > y_min else 0.1
+        ax.set_ylim(bottom=y_min, top=y_max + margin)
+        
+        ax.legend(loc='upper right', title="Configuration")
+        ax.grid(alpha=0.3)
+        
+        fig.tight_layout()
+        safe_metric_name = metric.lower()
+        export_plot(fig, comp_out_dir, f"{comp_name4save}_timeseries_median_{safe_metric_name}")
 
 def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
     """
@@ -358,6 +539,10 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
                 combined_run_df['step_dist'] = combined_run_df['base_lin_vel_l2'] * combined_run_df['delta_t']
                 combined_run_df['path_length'] = combined_run_df.groupby('run_id')['step_dist'].cumsum()
                 combined_run_df.drop(columns=['delta_t', 'step_dist'], inplace=True)
+
+            # Define success based on time threshold and overwrite 'goal_reached'
+            success_map = combined_run_df.groupby('run_id')['normalized_time'].max() < 28.0
+            combined_run_df['goal_reached'] = combined_run_df['run_id'].map(success_map).astype(int)
         else:
             combined_run_df['step'] = combined_run_df.groupby('run_id').cumcount()
             
@@ -410,13 +595,14 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
             run_id_to_label_map = {run_id: f"run{i+1:02d}" for i, run_id in enumerate(unique_run_ids)}
             group_df['legend_label'] = group_df['run_id'].map(run_id_to_label_map)
 
-            #plot_benchmark_metrics(group_df, benchmark_name, output_dir, global_limits)
-            #plot_benchmark_summary_bars(group_df, benchmark_name, output_dir, global_limits)
+            plot_benchmark_metrics(group_df, benchmark_name, output_dir, global_limits)
+            plot_benchmark_summary_bars(group_df, benchmark_name, output_dir, global_limits)
             
         # Generate high-level configuration comparisons
         for comp_name, comp_df in master_df.groupby('ComparisonGroup'):
             logging.info(f"Generating configuration comparison plots for group: {comp_name}")
             plot_comparison_summary_bars(comp_df, comp_name, output_dir, max_steps)
+            plot_comparison_timeseries(comp_df, comp_name, output_dir, global_limits, max_steps)
     else:
         logging.warning("No valid data was found to plot.")
 
