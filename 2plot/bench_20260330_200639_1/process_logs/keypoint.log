@@ -1,0 +1,12 @@
+
+[2026-03-30 20:06:46] START keypoint
+CMD: ros2 run ibvs_perception keypoint --ros-args -p detector_type:=xfeat -p device:=cuda -p top_k:=1024 -p debug_mode:=false -p input_topic:=/camera/camera/color/image_raw/compressed -p depth_topic:=/camera/camera/aligned_depth_to_color/image_raw/compressedDepth -p use_depth_roi:=true -p keypoints_topic:=/ibvs/keypoints
+
+/home/ros_ws/third_party/accelerated_features/modules/xfeat.py:33: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.net.load_state_dict(torch.load(weights, map_location=self.dev))
+[INFO] [1774894007.661421080] [keypoint_node]: Using detector: xfeat (XFeatDetector)
+[INFO] [1774894007.684770558] [keypoint_node]: Subscribing color: /camera/camera/color/image_raw/compressed (compressed)
+[INFO] [1774894007.685007797] [keypoint_node]: Subscribing depth: /camera/camera/aligned_depth_to_color/image_raw/compressedDepth (compressed)
+[INFO] [1774894007.685213763] [keypoint_node]: Publishing keypoints: /ibvs/keypoints
+[INFO] [1774894007.685418682] [keypoint_node]: Debug mode disabled.
+[INFO] [1774894007.685629667] [keypoint_node]: Depth-to-keypoints: on (max_age=0.20s)

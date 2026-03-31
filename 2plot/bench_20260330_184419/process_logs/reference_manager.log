@@ -1,0 +1,19 @@
+
+[2026-03-30 18:44:20] START reference_manager
+CMD: ros2 run ibvs_reference reference_manager --ros-args -p keypoints_topic:=/ibvs/keypoints -p image_topic:=/camera/camera/color/image_raw/compressed -p init_duration_sec:=5.0 -p ref_top_k:=300 -p debug_mode:=false
+
+[INFO] [1774889061.480211411] [reference_manager_node]: Ready. keypoints_topic=/ibvs/keypoints image_topic=/camera/camera/color/image_raw/compressed (compressed)
+[INFO] [1774889092.023414680] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774889097.049805264] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774889097.050104065] [reference_manager_node]: Capture done. candidates=2348 kept=300 best_count=267
+[INFO] [1774889437.551149349] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774889442.605330319] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774889442.605623725] [reference_manager_node]: Capture done. candidates=2285 kept=300 best_count=272
+[INFO] [1774890020.417178797] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774890025.469406936] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774890025.469711034] [reference_manager_node]: Capture done. candidates=2375 kept=300 best_count=301
+[INFO] [1774890169.397474845] [reference_manager_node]: Started capture for 5.00s, will keep top 300.
+[INFO] [1774890174.457281125] [reference_manager_node]: Saved reference overlay: /tmp/ibvs_reference_overlay.png
+[INFO] [1774890174.457569038] [reference_manager_node]: Capture done. candidates=2322 kept=300 best_count=246
+
+[2026-03-30 19:08:47] STOP reference_manager
