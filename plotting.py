@@ -282,7 +282,7 @@ def plot_comparison_summary_bars(comparison_df: pd.DataFrame, comparison_name: s
     ]
     
     for col_name, y_label, color in metrics_to_plot:
-        print(f"Plotting {col_name} for comparison {comparison_name}")
+        # print(f"Plotting {col_name} for comparison {comparison_name}")
         fig, ax = plt.subplots(figsize=(8, 6))
         
         # Use standard deviation for error bars to match the +/- text logic
@@ -300,10 +300,10 @@ def plot_comparison_summary_bars(comparison_df: pd.DataFrame, comparison_name: s
         stats = summary_df.groupby('Configuration')[col_name].agg(['mean', 'std'])
         
         for patch, tick_label in zip(ax.patches, ax.get_xticklabels()):
-            print(f"patch: {patch}, tick_label: {tick_label}")
+            # print(f"patch: {patch}, tick_label: {tick_label}")
             config = tick_label.get_text()
             if config in stats.index:
-                print(f"config: {config}")
+                # print(f"config: {config}")
                 mean_val = stats.loc[config, 'mean']
                 std_val = stats.loc[config, 'std']
                 
@@ -519,7 +519,7 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
         
         # Calculate time normalization here so limits can be extracted globally later
         if 't_rel_s' in combined_run_df.columns:
-            if 'ibvs_lin_vel_l2' in combined_run_df.columns:
+            if 'base_lin_acc_l2' in combined_run_df.columns:
                 motion_mask = combined_run_df['ibvs_lin_vel_l2'] > 1e-5
                 start_times = combined_run_df[motion_mask].groupby('run_id')['t_rel_s'].min()
                 combined_run_df['start_time'] = combined_run_df['run_id'].map(start_times)
