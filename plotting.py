@@ -343,6 +343,10 @@ def plot_comparison_timeseries(comparison_df: pd.DataFrame, comparison_name: str
     # Map step back to x_col (e.g. normalized_time) to maintain correct x-axis scale on the plot
     step_to_time = df_plot.groupby('step')[x_col].median()
     
+    if x_col != 'step':
+        # Prevent time from going backwards when runs with larger time-steps drop out early
+        step_to_time = step_to_time.cummax()
+
     if x_col != 'step' and max_steps > step_to_time.index.max():
         # Extrapolate time for padded steps assuming constant dt
         last_steps = step_to_time.dropna().iloc[-5:]
@@ -568,6 +572,11 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
     if all_data:
         master_df = pd.concat(all_data, ignore_index=True)
         
+        # CRITICAL: Ensure data is sorted by time within each run.
+        # This prevents plots from "going back in time" if data was not ordered in the source CSVs.
+        if 'normalized_time' in master_df.columns:
+            master_df.sort_values(by=['run_id', 'normalized_time'], inplace=True, ignore_index=True)
+
         # Determine the maximum steps any run took, to use as the baseline "timeout" for average calculation
         max_steps = master_df.groupby('run_id').size().max()
         
@@ -601,13 +610,13 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
             run_id_to_label_map = {run_id: f"run{i+1:02d}" for i, run_id in enumerate(unique_run_ids)}
             group_df['legend_label'] = group_df['run_id'].map(run_id_to_label_map)
 
-            # plot_benchmark_metrics(group_df, benchmark_name, output_dir, global_limits)
-            # plot_benchmark_summary_bars(group_df, benchmark_name, output_dir, global_limits)
+            plot_benchmark_metrics(group_df, benchmark_name, output_dir, global_limits)
+            plot_benchmark_summary_bars(group_df, benchmark_name, output_dir, global_limits)
             
         # Generate high-level configuration comparisons
         for comp_name, comp_df in master_df.groupby('ComparisonGroup'):
             logging.info(f"Generating configuration comparison plots for group: {comp_name}")
-            # plot_comparison_summary_bars(comp_df, comp_name, output_dir, max_steps)
+            plot_comparison_summary_bars(comp_df, comp_name, output_dir, max_steps)
             plot_comparison_timeseries(comp_df, comp_name, output_dir, global_limits, max_steps)
     else:
         logging.warning("No valid data was found to plot.")
