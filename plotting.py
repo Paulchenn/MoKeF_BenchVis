@@ -78,7 +78,7 @@ def plot_benchmark_metrics(benchmark_df: pd.DataFrame, benchmark_name: str, outp
     ]
     
     bench_name4save = benchmark_name.replace(" ", "")
-    bench_out_dir = output_dir / str(bench_name4save)
+    bench_out_dir = output_dir / "per_run" / str(bench_name4save)
     bench_out_dir.mkdir(parents=True, exist_ok=True)
 
     # The legend_label column is now expected to exist on benchmark_df
@@ -152,7 +152,7 @@ def plot_benchmark_summary_bars(benchmark_df: pd.DataFrame, benchmark_name: str,
     Metrics: Success Rate (1/0), Time to Goal, Mean IBVS RMS.
     """
     bench_name4save = benchmark_name.replace(" ", "")
-    bench_out_dir = output_dir / str(bench_name4save)
+    bench_out_dir = output_dir / "per_run" / str(bench_name4save)
     bench_out_dir.mkdir(parents=True, exist_ok=True)
     
     x_col = global_limits['x_col']
@@ -352,10 +352,16 @@ def plot_comparison_timeseries(comparison_df: pd.DataFrame, comparison_name: str
         step_to_time = pd.concat([step_to_time, pd.Series(new_times, index=missing_steps)])
         
     metrics_to_plot = [
-        ("ibvs_lin_acc_l2", "Median Lin Acc (m/s²)"),
-        ("ibvs_lin_vel_l2", "Median Lin Vel (m/s)"),
+        ("ibvs_lin_acc_l2", "Median IBVS Lin Acc (m/s²)"),
+        ("ibvs_lin_vel_l2", "Median IBVS Lin Vel (m/s)"),
+        ("ibvs_ang_acc_l2", "Median IBVS Ang Acc (rad/s²)"),
+        ("ibvs_ang_vel_l2", "Median IBVS Ang Vel (rad/s)"),
         ("ibvs_rms_px", "Median RMS (px)"),
-        ("path_length", "Median Path Length (m)")
+        ("path_length", "Median Path Length (m)"),
+        ("base_lin_acc_l2", "Median Base Lin Acc (m/s²)"),
+        ("base_lin_vel_l2", "Median Base Lin Vel (m/s)"),
+        ("base_ang_acc_l2", "Median Base Ang Acc (rad/s²)"),
+        ("base_ang_vel_l2", "Median Base Ang Vel (rad/s)"),
     ]
     
     comp_split = comparison_name.split("_")
@@ -419,7 +425,7 @@ def plot_comparison_timeseries(comparison_df: pd.DataFrame, comparison_name: str
         y_min = global_limits['y_mins'].get(metric, 0)
         y_max = global_limits['y_maxs'].get(metric, 1)
         margin = (y_max - y_min) * 0.05 if y_max > y_min else 0.1
-        ax.set_ylim(bottom=y_min, top=y_max + margin)
+        # ax.set_ylim(bottom=y_min, top=y_max + margin)
         
         ax.legend(loc='upper right', title="Configuration")
         ax.grid(alpha=0.3)
@@ -519,8 +525,8 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
         
         # Calculate time normalization here so limits can be extracted globally later
         if 't_rel_s' in combined_run_df.columns:
-            if 'base_lin_acc_l2' in combined_run_df.columns:
-                motion_mask = combined_run_df['ibvs_lin_vel_l2'] > 1e-5
+            if 'base_lin_vel_l2' in combined_run_df.columns:
+                motion_mask = combined_run_df['base_lin_vel_l2'] > 5e-3
                 start_times = combined_run_df[motion_mask].groupby('run_id')['t_rel_s'].min()
                 combined_run_df['start_time'] = combined_run_df['run_id'].map(start_times)
                 
@@ -531,7 +537,7 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
                 combined_run_df = combined_run_df[combined_run_df['normalized_time'] >= 0.0].copy()
             else:
                 combined_run_df['normalized_time'] = combined_run_df.groupby('run_id')['t_rel_s'].transform(lambda x: x - x.min())
-            combined_run_df['normalized_time'] = combined_run_df.groupby('run_id')['t_rel_s'].transform(lambda x: x - x.iloc[0] if len(x) > 0 else x)
+            # combined_run_df['normalized_time'] = combined_run_df.groupby('run_id')['t_rel_s'].transform(lambda x: x - x.iloc[0] if len(x) > 0 else x)
             
             # Calculate Path Length
             if 'path_length' not in combined_run_df.columns and 'base_lin_vel_l2' in combined_run_df.columns:
@@ -595,13 +601,13 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
             run_id_to_label_map = {run_id: f"run{i+1:02d}" for i, run_id in enumerate(unique_run_ids)}
             group_df['legend_label'] = group_df['run_id'].map(run_id_to_label_map)
 
-            plot_benchmark_metrics(group_df, benchmark_name, output_dir, global_limits)
-            plot_benchmark_summary_bars(group_df, benchmark_name, output_dir, global_limits)
+            # plot_benchmark_metrics(group_df, benchmark_name, output_dir, global_limits)
+            # plot_benchmark_summary_bars(group_df, benchmark_name, output_dir, global_limits)
             
         # Generate high-level configuration comparisons
         for comp_name, comp_df in master_df.groupby('ComparisonGroup'):
             logging.info(f"Generating configuration comparison plots for group: {comp_name}")
-            plot_comparison_summary_bars(comp_df, comp_name, output_dir, max_steps)
+            # plot_comparison_summary_bars(comp_df, comp_name, output_dir, max_steps)
             plot_comparison_timeseries(comp_df, comp_name, output_dir, global_limits, max_steps)
     else:
         logging.warning("No valid data was found to plot.")
