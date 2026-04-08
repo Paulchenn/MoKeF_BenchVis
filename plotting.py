@@ -2,12 +2,15 @@ import matplotlib
 # MUST be called before importing pyplot
 matplotlib.use("pgf")
 import matplotlib.pyplot as plt
+from matplotlib.ticker import PercentFormatter
 import seaborn as sns
 from pathlib import Path
 import pandas as pd
 import logging
 import re
 import numpy as np
+import pickle
+import argparse
 
 # Configure LaTeX/PGF settings
 matplotlib.rcParams.update({
@@ -28,7 +31,7 @@ matplotlib.rcParams.update({
 
 def export_plot(fig, output_dir: Path, filename_base: str):
     """
-    Handles the exporting of the figure into both required formats.
+    Handles the exporting of the figure into all required formats (PDF, PGF, SVG).
     """
     output_dir.mkdir(parents=True, exist_ok=True)
     
@@ -39,6 +42,10 @@ def export_plot(fig, output_dir: Path, filename_base: str):
     # Save as PGF for LaTeX integration
     pgf_path = output_dir / f"{filename_base}.pgf"
     fig.savefig(pgf_path, format="pgf", bbox_inches="tight")
+
+    # Save as SVG for vector graphics editing or web display
+    svg_path = output_dir / f"{filename_base}.svg"
+    fig.savefig(svg_path, format="svg", bbox_inches="tight")
     
     # Post-process the PGF file to strip hardcoded font families.
     # This forces the text to natively inherit the surrounding LaTeX document's font.
@@ -64,7 +71,7 @@ def load_metadata(excel_path: Path) -> pd.DataFrame:
         
     return df
 
-def plot_benchmark_metrics(benchmark_df: pd.DataFrame, benchmark_name: str, output_dir: Path, global_limits: dict):
+def plot_single_benchmark_metric(benchmark_df: pd.DataFrame, benchmark_name: str, metric: str, output_dir: Path, global_limits: dict):
     """
     Generates individual plots for specified metrics across all runs within a single benchmark.
     """
@@ -81,70 +88,97 @@ def plot_benchmark_metrics(benchmark_df: pd.DataFrame, benchmark_name: str, outp
     bench_out_dir = output_dir / "per_run" / str(bench_name4save)
     bench_out_dir.mkdir(parents=True, exist_ok=True)
 
-    # The legend_label column is now expected to exist on benchmark_df
-    legend_labels_sorted = sorted(benchmark_df['legend_label'].unique())
     x_col = global_limits['x_col']
     x_label = global_limits['x_label']
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    plot_df = benchmark_df
+    current_legend_labels = sorted(benchmark_df['legend_label'].unique())
+    
+    if metric == "ibvs_rms_px":
+        ax.axhline(y=20, color='r', linestyle='--', linewidth=1)
+        
+        # Create a copy to modify labels just for this plot
+        plot_df = benchmark_df.copy()
+        new_labels = {}
+        if 'normalized_time' in plot_df.columns:
+            for run_id, run_group in plot_df.groupby('run_id'):
+                label = run_group['legend_label'].iloc[0]
+                run_group = run_group.sort_values('normalized_time')
+                above_mask = run_group['ibvs_rms_px'] > 20
+                
+                if not above_mask.any():
+                    settling_time = 0.0
+                else:
+                    last_true_index = above_mask[above_mask].index[-1]
+                    loc = run_group.index.get_loc(last_true_index)
+                    if loc + 1 < len(run_group):
+                        settling_time = run_group.iloc[loc + 1]['normalized_time']
+                    else:
+                        settling_time = None # Never settled
+                
+                if settling_time is not None:
+                    new_labels[run_id] = f"{label} (settles at {settling_time:.2f}s)"
+                else:
+                    new_labels[run_id] = f"{label} (never settles)"
+            
+            plot_df['legend_label'] = plot_df['run_id'].map(new_labels)
+            current_legend_labels = sorted(plot_df['legend_label'].unique())
+
+    # estimator=None forces Seaborn to draw a separate, raw curve for each run_id without averaging
+    sns.lineplot(data=plot_df, x=x_col, y=metric, hue='legend_label', hue_order=current_legend_labels, estimator=None, ax=ax)
+    
+    # ax.set_title(...)
+    ax.set_xlabel(x_label)
+        
+    # Apply global axes limits to ensure 1:1 comparison across all plots
+    ax.set_xlim(left=0, right=global_limits['x_max'])
+    
+    y_min = global_limits['y_mins'].get(metric, 0)
+    y_max = global_limits['y_maxs'].get(metric, 1)
+    margin = (y_max - y_min) * 0.05 if y_max > y_min else 0.1
+    # ax.set_ylim(bottom=y_min, top=y_max + margin)
+        
+    # Move the legend outside the plot to avoid overlapping data
+    ax.legend(loc='upper right', title="Run")
+    
+    export_plot(fig, bench_out_dir, f"{bench_name4save}_{metric}")
+
+def plot_benchmark_metrics(benchmark_df: pd.DataFrame, benchmark_name: str, output_dir: Path, global_limits: dict):
+    """
+    Generates individual plots for specified metrics across all runs within a single benchmark.
+    """
+    metrics = [
+        "ibvs_rms_px", "ibvs_lin_vel_l2", "ibvs_ang_vel_l2", 
+        "ibvs_lin_acc_l2", "ibvs_ang_acc_l2", "base_lin_vel_l2", 
+        "base_ang_vel_l2", "base_lin_acc_l2", "base_ang_acc_l2",
+        "filter_reject_count", "local_rescue_attempts_delta", 
+        "local_rescue_success_delta", "local_rescue_reject_delta",
+        "run_timed_out", "goal_reached", "path_length"
+    ]
+    
+    bench_name4save = benchmark_name.replace(" ", "")
+    bench_out_dir = output_dir / "per_run" / str(bench_name4save)
 
     for metric in metrics:
         if metric not in benchmark_df.columns:
             logging.debug(f"Metric {metric} not found in data for {benchmark_name}, skipping.")
             continue
 
-        fig, ax = plt.subplots(figsize=(8, 5))
-        plot_df = benchmark_df
-        current_legend_labels = legend_labels_sorted
-        
-        if metric == "ibvs_rms_px":
-            ax.axhline(y=20, color='r', linestyle='--', linewidth=1)
-            
-            # Create a copy to modify labels just for this plot
-            plot_df = benchmark_df.copy()
-            new_labels = {}
-            if 'normalized_time' in plot_df.columns:
-                for run_id, run_group in plot_df.groupby('run_id'):
-                    label = run_group['legend_label'].iloc[0]
-                    run_group = run_group.sort_values('normalized_time')
-                    above_mask = run_group['ibvs_rms_px'] > 20
-                    
-                    if not above_mask.any():
-                        settling_time = 0.0
-                    else:
-                        last_true_index = above_mask[above_mask].index[-1]
-                        loc = run_group.index.get_loc(last_true_index)
-                        if loc + 1 < len(run_group):
-                            settling_time = run_group.iloc[loc + 1]['normalized_time']
-                        else:
-                            settling_time = None # Never settled
-                    
-                    if settling_time is not None:
-                        new_labels[run_id] = f"{label} (settles at {settling_time:.2f}s)"
-                    else:
-                        new_labels[run_id] = f"{label} (never settles)"
-                
-                plot_df['legend_label'] = plot_df['run_id'].map(new_labels)
-                current_legend_labels = sorted(plot_df['legend_label'].unique())
+        plot_single_benchmark_metric(benchmark_df, benchmark_name, metric, output_dir, global_limits)
 
-        # estimator=None forces Seaborn to draw a separate, raw curve for each run_id without averaging
-        sns.lineplot(data=plot_df, x=x_col, y=metric, hue='legend_label', hue_order=current_legend_labels, estimator=None, ax=ax)
-        
-        metric_pretty = metric.replace('_', ' ').upper()
-        bench_split = benchmark_name.split("_")
-        ax.set_title(f"Stufe: {bench_split[1]} | Szen.: {bench_split[2]} | Filter: {bench_split[3]} | Level: {bench_split[0]} | Bauteil: {bench_split[4]}\n{metric_pretty}")
-        ax.set_xlabel(x_label)
-            
-        # Apply global axes limits to ensure 1:1 comparison across all plots
-        ax.set_xlim(left=0, right=global_limits['x_max'])
-        
-        y_min = global_limits['y_mins'].get(metric, 0)
-        y_max = global_limits['y_maxs'].get(metric, 1)
-        margin = (y_max - y_min) * 0.05 if y_max > y_min else 0.1
-        ax.set_ylim(bottom=y_min, top=y_max + margin)
-            
-        # Move the legend outside the plot to avoid overlapping data
-        ax.legend(loc='upper right', title="Run")
-        
-        export_plot(fig, bench_out_dir, f"{bench_name4save}_{metric}")
+        # Save data for regeneration
+        regen_info = {
+            'plot_function': 'plot_single_benchmark_metric',
+            'data': benchmark_df,
+            'params': {
+                'benchmark_name': benchmark_name,
+                'metric': metric,
+            }
+        }
+        pkl_path = bench_out_dir / f"{bench_name4save}_{metric}.pkl"
+        with open(pkl_path, 'wb') as f:
+            pickle.dump(regen_info, f)
 
 def plot_benchmark_summary_bars(benchmark_df: pd.DataFrame, benchmark_name: str, output_dir: Path, global_limits: dict):
     """
@@ -191,8 +225,8 @@ def plot_benchmark_summary_bars(benchmark_df: pd.DataFrame, benchmark_name: str,
     fig, axes = plt.subplots(4, 1, figsize=(8, 13), sharex=True)
     
     sns.barplot(data=summary_df, x='Run', y='Success Rate', ax=axes[0], color='tab:blue')
-    bench_split = benchmark_name.split("_")
-    axes[0].set_title(f"Stufe: {bench_split[1]} | Szen.: {bench_split[2]} | Filter: {bench_split[3]} | Level: {bench_split[0]} | Bauteil: {bench_split[4]}\nRun Summaries")
+    # bench_split = benchmark_name.split("_")
+    # axes[0].set_title(f"Stufe: {bench_split[1]} | Szen.: {bench_split[2]} | Filter: {bench_split[3]} | Level: {bench_split[0]} | Bauteil: {bench_split[4]}\nRun Summaries")
     axes[0].set_ylabel("Success Rate")
     
     sns.barplot(data=summary_df, x='Run', y='Time to Goal', ax=axes[1], color='tab:orange')
@@ -218,23 +252,37 @@ def plot_benchmark_summary_bars(benchmark_df: pd.DataFrame, benchmark_name: str,
                         
         # Expand Y-axis to make room for text
         ymin, ymax = ax.get_ylim()
-        ax.set_ylim(ymin, ymax + (ymax - ymin) * 0.15)
+        # ax.set_ylim(ymin, ymax + (ymax - ymin) * 0.15)
         
     axes[0].set_ylim(0, 1.25) # Success rate limit manually adjusted to fit text
     axes[-1].set_xlabel("Run")
     fig.tight_layout()
     
+    # Save data for regeneration
+    regen_info = {
+        'plot_function': 'plot_benchmark_summary_bars',
+        'data': benchmark_df,
+        'params': {
+            'benchmark_name': benchmark_name,
+        }
+    }
+    pkl_path = bench_out_dir / f"{bench_name4save}_summary_bars.pkl"
+    with open(pkl_path, 'wb') as f:
+        pickle.dump(regen_info, f)
+
     export_plot(fig, bench_out_dir, f"{bench_name4save}_summary_bars")
 
-def plot_comparison_summary_bars(comparison_df: pd.DataFrame, comparison_name: str, output_dir: Path, max_steps: int):
+def plot_single_comparison_summary_bar(
+    comparison_df: pd.DataFrame, comparison_name: str, col_name: str, y_label: str, 
+    color: str, max_steps: int, output_dir: Path, global_limits: dict
+):
     """
-    Generates a figure with 5 subplots comparing different Stage/Filter configurations
-    for a specific Level, Scenario, and Type (Bauteil).
+    Generates a single bar plot comparing a metric across different Stage/Filter configurations.
     """
     comp_name4save = comparison_name.replace(" ", "")
     comp_out_dir = output_dir / "Comparisons" / str(comp_name4save)
     comp_out_dir.mkdir(parents=True, exist_ok=True)
-    
+
     summary_records = []
     for run_id, group in comparison_df.groupby('run_id'):
         stage_filter = group['Stage_Filter'].iloc[0]
@@ -267,10 +315,66 @@ def plot_comparison_summary_bars(comparison_df: pd.DataFrame, comparison_name: s
         })
         
     summary_df = pd.DataFrame(summary_records).sort_values('Configuration')
+
+    fig, ax = plt.subplots(figsize=(8, 6))
     
-    comp_split = comparison_name.split("_")
-    title_base = f"Level: {comp_split[0]} | Szen.: {comp_split[1]} | Bauteil: {comp_split[2]}"
+    is_success_plot = (col_name == 'Success Rate')
+
+    # Use standard deviation for error bars to match the +/- text logic
+    sns.barplot(data=summary_df, x='Configuration', y=col_name, ax=ax, color=color, errorbar=None if is_success_plot else 'sd', capsize=0.1)
+    if col_name == 'Mean IBVS RMS':
+        ax.axhline(y=20, color='r', linestyle='--', linewidth=1)
+
+    # ax.set_title(...)
+    if is_success_plot:
+        ax.yaxis.set_major_formatter(PercentFormatter(1.0))
+        ax.set_ylabel('Success Rate')
+    else:
+        ax.set_ylabel(y_label)
+    ax.set_xlabel("Configuration (Stage - Filter)")
+    ax.tick_params(axis='x', rotation=45)
+    ax.grid(axis='y', alpha=0.3)
     
+    # Calculate stats for the +/- annotations
+    stats = summary_df.groupby('Configuration')[col_name].agg(['mean', 'std'])
+
+    for patch, tick_label in zip(ax.patches, ax.get_xticklabels()):
+        config = tick_label.get_text()
+        if config in stats.index:
+            mean_val = patch.get_height()
+            if pd.isna(mean_val): continue
+
+            if is_success_plot:
+                y_pos = mean_val
+                annotation_text = f"${mean_val * 100:.1f}\\%$"
+            else:
+                std_val = stats.loc[config, 'std']
+                if pd.isna(std_val): std_val = 0.0
+                # Place text at the top of the error bar
+                y_pos = mean_val + std_val
+                annotation_text = f"${mean_val:.4f} \\pm {std_val:.4f}$"
+
+            ax.text(patch.get_x() + patch.get_width() / 2., y_pos,
+                    annotation_text,
+                    ha='center', va='bottom', fontsize=8)
+                    
+    # Add headroom for the text annotations
+    ymin, ymax = ax.get_ylim()
+    ymax = 1 if is_success_plot else ymax
+    # ax.set_ylim(ymin, ymax + (ymax - ymin) * 0.15)
+    
+    fig.tight_layout()
+    safe_metric_name = col_name.replace(" ", "_").lower()
+    export_plot(fig, comp_out_dir, f"{comp_name4save}_{safe_metric_name}")
+
+def plot_comparison_summary_bars(comparison_df: pd.DataFrame, comparison_name: str, output_dir: Path, max_steps: int, global_limits: dict):
+    """
+    Generates bar plots comparing different Stage/Filter configurations
+    for a specific Level, Scenario, and Type (Bauteil).
+    """
+    comp_name4save = comparison_name.replace(" ", "")
+    comp_out_dir = output_dir / "Comparisons" / str(comp_name4save)
+
     metrics_to_plot = [
         ('Success Rate', 'Success Rate', 'tab:pink'),
         ('Mean IBVS Lin Vel', 'Mean Lin Vel (m/s) [SUCCESSFUL RUNS]', 'tab:cyan'),
@@ -282,57 +386,38 @@ def plot_comparison_summary_bars(comparison_df: pd.DataFrame, comparison_name: s
     ]
     
     for col_name, y_label, color in metrics_to_plot:
-        # print(f"Plotting {col_name} for comparison {comparison_name}")
-        fig, ax = plt.subplots(figsize=(8, 6))
-        
-        # Use standard deviation for error bars to match the +/- text logic
-        sns.barplot(data=summary_df, x='Configuration', y=col_name, ax=ax, color=color, errorbar='sd', capsize=0.1)
-        if col_name == 'Mean IBVS RMS':
-            ax.axhline(y=20, color='r', linestyle='--', linewidth=1)
+        plot_single_comparison_summary_bar(
+            comparison_df, comparison_name, col_name, y_label, color, max_steps, output_dir, global_limits
+        )
 
-        ax.set_title(f"{title_base}\n{col_name}")
-        ax.set_ylabel(y_label)
-        ax.set_xlabel("Configuration (Stage - Filter)")
-        ax.tick_params(axis='x', rotation=45)
-        ax.grid(axis='y', alpha=0.3)
-        
-        # Calculate stats for the +/- annotations
-        stats = summary_df.groupby('Configuration')[col_name].agg(['mean', 'std'])
-        
-        for patch, tick_label in zip(ax.patches, ax.get_xticklabels()):
-            # print(f"patch: {patch}, tick_label: {tick_label}")
-            config = tick_label.get_text()
-            if config in stats.index:
-                # print(f"config: {config}")
-                mean_val = stats.loc[config, 'mean']
-                std_val = stats.loc[config, 'std']
-                
-                if pd.isna(mean_val): continue
-                if pd.isna(std_val): std_val = 0.0
-                    
-                # Place text slightly above the error bar (mean + std)
-                y_pos = mean_val + std_val
-                ax.text(patch.get_x() + patch.get_width() / 2., y_pos, 
-                        f"${mean_val:.4f} \\pm {std_val:.4f}$", 
-                        ha='center', va='bottom', fontsize=8)
-                        
-        # Add headroom for the text annotations
-        ymin, ymax = ax.get_ylim()
-        ax.set_ylim(ymin, ymax + (ymax - ymin) * 0.15)
-        
-        fig.tight_layout()
+        # Save data for regeneration
+        regen_info = {
+            'plot_function': 'plot_single_comparison_summary_bar',
+            'data': comparison_df,
+            'params': {
+                'comparison_name': comparison_name,
+                'col_name': col_name,
+                'y_label': y_label,
+                'color': color,
+                'max_steps': max_steps,
+            }
+        }
         safe_metric_name = col_name.replace(" ", "_").lower()
-        export_plot(fig, comp_out_dir, f"{comp_name4save}_{safe_metric_name}")
-        
-def plot_comparison_timeseries(comparison_df: pd.DataFrame, comparison_name: str, output_dir: Path, global_limits: dict, max_steps: int):
+        pkl_path = comp_out_dir / f"{comp_name4save}_{safe_metric_name}.pkl"
+        with open(pkl_path, 'wb') as f:
+            pickle.dump(regen_info, f)
+
+def plot_single_comparison_timeseries(
+    comparison_df: pd.DataFrame, comparison_name: str, metric: str, y_label: str, 
+    max_steps: int, output_dir: Path, global_limits: dict
+):
     """
-    Generates line plots showing the median over time for different Stage/Filter configurations.
-    Pads early-terminating runs (success) with 0 or forward-filled values up to the timeout (max_steps).
+    Generates a single line plot showing the median over time for a metric.
     """
     comp_name4save = comparison_name.replace(" ", "")
     comp_out_dir = output_dir / "Comparisons" / str(comp_name4save)
     comp_out_dir.mkdir(parents=True, exist_ok=True)
-    
+
     x_col = global_limits['x_col']
     x_label = global_limits['x_label']
     
@@ -346,6 +431,10 @@ def plot_comparison_timeseries(comparison_df: pd.DataFrame, comparison_name: str
     if x_col != 'step':
         # Prevent time from going backwards when runs with larger time-steps drop out early
         step_to_time = step_to_time.cummax()
+    
+    if not df_plot.empty and 'step' in df_plot.columns:
+        max_steps = max(max_steps, df_plot['step'].max() + 1)
+
 
     if x_col != 'step' and max_steps > step_to_time.index.max():
         # Extrapolate time for padded steps assuming constant dt
@@ -354,7 +443,77 @@ def plot_comparison_timeseries(comparison_df: pd.DataFrame, comparison_name: str
         missing_steps = range(int(step_to_time.index.max()) + 1, max_steps)
         new_times = [step_to_time.iloc[-1] + (i * dt) for i in range(1, len(missing_steps) + 1)]
         step_to_time = pd.concat([step_to_time, pd.Series(new_times, index=missing_steps)])
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    
+    if metric == 'ibvs_rms_px':
+        ax.axhline(y=20, color='r', linestyle='--', linewidth=1)
+
+    for config, group in df_plot.groupby('Stage_Filter'):
+        # Pivot to get a step x run_id matrix
+        pivot = group.pivot(index='step', columns='run_id', values=metric)
         
+        # Reindex to force the matrix to extend exactly to the global timeout limit
+        pivot = pivot.reindex(range(max_steps))
+        
+        # Apply padding logic for runs that reached the goal early
+        if metric == 'path_length':
+            pivot = pivot.ffill()  # Distance stays at its final maximum value
+        else:
+            pivot = pivot.fillna(0.0)  # Velocities and Errors drop to 0
+        
+        # Calculate the median across all runs for this configuration at each time step
+        median_line = pivot.median(axis=1)
+        
+        label = config
+        if metric == 'ibvs_rms_px' and x_col == 'normalized_time':
+            above_threshold = median_line > 20
+            if not above_threshold.any():
+                settling_time = 0.0
+            else:
+                last_above_step = above_threshold[above_threshold].index.max()
+                settling_step = last_above_step + 1
+                
+                if settling_step >= max_steps:
+                    settling_time = None # Never settled
+                else:
+                    settling_time = step_to_time.get(settling_step)
+
+            if settling_time is not None:
+                label = f"{config} (settles at {settling_time:.2f}s)"
+            else:
+                label = f"{config} (never settles)"
+
+        # Map the steps back to the proper X-axis values for plotting
+        x_vals = median_line.index if x_col == 'step' else step_to_time.reindex(median_line.index).ffill().values
+            
+        ax.plot(x_vals, median_line.values, label=label)
+        
+    # ax.set_title(...)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    
+    ax.set_xlim(left=0, right=global_limits['x_max'])
+    y_min = global_limits['y_mins'].get(metric, 0)
+    y_max = global_limits['y_maxs'].get(metric, 1)
+    margin = (y_max - y_min) * 0.05 if y_max > y_min else 0.1
+    # ax.set_ylim(bottom=y_min, top=y_max + margin)
+    
+    ax.legend(loc='upper right', title="Configuration")
+    ax.grid(alpha=0.3)
+    
+    fig.tight_layout()
+    safe_metric_name = metric.lower()
+    export_plot(fig, comp_out_dir, f"{comp_name4save}_timeseries_median_{safe_metric_name}")
+
+def plot_comparison_timeseries(comparison_df: pd.DataFrame, comparison_name: str, output_dir: Path, global_limits: dict, max_steps: int):
+    """
+    Generates line plots showing the median over time for different Stage/Filter configurations.
+    Pads early-terminating runs (success) with 0 or forward-filled values up to the timeout (max_steps).
+    """
+    comp_name4save = comparison_name.replace(" ", "")
+    comp_out_dir = output_dir / "Comparisons" / str(comp_name4save)
+
     metrics_to_plot = [
         ("ibvs_lin_acc_l2", "Median IBVS Lin Acc (m/s²)"),
         ("ibvs_lin_vel_l2", "Median IBVS Lin Vel (m/s)"),
@@ -368,75 +527,114 @@ def plot_comparison_timeseries(comparison_df: pd.DataFrame, comparison_name: str
         ("base_ang_vel_l2", "Median Base Ang Vel (rad/s)"),
     ]
     
-    comp_split = comparison_name.split("_")
-    title_base = f"Level: {comp_split[0]} | Szen.: {comp_split[1]} | Bauteil: {comp_split[2]}"
-
     for metric, y_label in metrics_to_plot:
-        if metric not in df_plot.columns:
+        if metric not in comparison_df.columns:
             continue
-            
-        fig, ax = plt.subplots(figsize=(8, 5))
         
-        if metric == 'ibvs_rms_px':
-            ax.axhline(y=20, color='r', linestyle='--', linewidth=1)
+        plot_single_comparison_timeseries(
+            comparison_df, comparison_name, metric, y_label, max_steps, output_dir, global_limits
+        )
 
-        for config, group in df_plot.groupby('Stage_Filter'):
-            # Pivot to get a step x run_id matrix
-            pivot = group.pivot(index='step', columns='run_id', values=metric)
-            
-            # Reindex to force the matrix to extend exactly to the global timeout limit
-            pivot = pivot.reindex(range(max_steps))
-            
-            # Apply padding logic for runs that reached the goal early
-            if metric == 'path_length':
-                pivot = pivot.ffill()  # Distance stays at its final maximum value
-            else:
-                pivot = pivot.fillna(0.0)  # Velocities and Errors drop to 0
-            
-            # Calculate the median across all runs for this configuration at each time step
-            median_line = pivot.median(axis=1)
-            
-            label = config
-            if metric == 'ibvs_rms_px' and x_col == 'normalized_time':
-                above_threshold = median_line > 20
-                if not above_threshold.any():
-                    settling_time = 0.0
-                else:
-                    last_above_step = above_threshold[above_threshold].index.max()
-                    settling_step = last_above_step + 1
-                    
-                    if settling_step >= max_steps:
-                        settling_time = None # Never settled
-                    else:
-                        settling_time = step_to_time.get(settling_step)
-
-                if settling_time is not None:
-                    label = f"{config} (settles at {settling_time:.2f}s)"
-                else:
-                    label = f"{config} (never settles)"
-
-            # Map the steps back to the proper X-axis values for plotting
-            x_vals = median_line.index if x_col == 'step' else step_to_time.reindex(median_line.index).ffill().values
-                
-            ax.plot(x_vals, median_line.values, label=label)
-            
-        metric_pretty = metric.replace('_', ' ').upper()
-        ax.set_title(f"{title_base}\n{metric_pretty} (Median over time)")
-        ax.set_xlabel(x_label)
-        ax.set_ylabel(y_label)
-        
-        ax.set_xlim(left=0, right=global_limits['x_max'])
-        y_min = global_limits['y_mins'].get(metric, 0)
-        y_max = global_limits['y_maxs'].get(metric, 1)
-        margin = (y_max - y_min) * 0.05 if y_max > y_min else 0.1
-        # ax.set_ylim(bottom=y_min, top=y_max + margin)
-        
-        ax.legend(loc='upper right', title="Configuration")
-        ax.grid(alpha=0.3)
-        
-        fig.tight_layout()
+        # Save data for regeneration
+        regen_info = {
+            'plot_function': 'plot_single_comparison_timeseries',
+            'data': comparison_df,
+            'params': {
+                'comparison_name': comparison_name,
+                'metric': metric,
+                'y_label': y_label,
+                'max_steps': max_steps,
+            }
+        }
         safe_metric_name = metric.lower()
-        export_plot(fig, comp_out_dir, f"{comp_name4save}_timeseries_median_{safe_metric_name}")
+        pkl_path = comp_out_dir / f"{comp_name4save}_timeseries_median_{safe_metric_name}.pkl"
+        with open(pkl_path, 'wb') as f:
+            pickle.dump(regen_info, f)
+
+def regenerate_from_z_2use(z_2use_dir: Path):
+    """
+    Finds all .pkl files in the reference directory, calculates global axis limits from them,
+    and then re-plots each one using the global limits, saving it back to the same location.
+    """
+    logging.info(f"Starting regeneration process from reference directory: {z_2use_dir}")
+    if not z_2use_dir.exists():
+        logging.error(f"Reference directory {z_2use_dir} does not exist. Aborting.")
+        return
+
+    pkl_files = list(z_2use_dir.rglob("*.pkl"))
+    if not pkl_files:
+        logging.warning(f"No .pkl files found in {z_2use_dir} for regeneration.")
+        return
+    
+    logging.info(f"Found {len(pkl_files)} .pkl files. Calculating global axis limits.")
+
+    # --- Pass 1: Calculate Global Limits ---
+    y_maxs = {}
+    x_max_time = -1
+    x_max_step = -1
+
+    for pkl_file in pkl_files:
+        try:
+            with open(pkl_file, 'rb') as f:
+                regen_info = pickle.load(f)
+            
+            df = regen_info['data']
+            params = regen_info.get('params', {})
+            metric = params.get('metric') or params.get('col_name')
+
+            if metric and metric in df.columns:
+                # For success rate, the max is always 1.0
+                if 'success rate' in metric.lower():
+                    y_maxs[metric] = 1.0
+                else:
+                    current_max = df[metric].max()
+                    y_maxs[metric] = max(y_maxs.get(metric, -float('inf')), current_max)
+
+            if 'normalized_time' in df.columns:
+                x_max_time = max(x_max_time, df['normalized_time'].max())
+            if 'step' in df.columns:
+                x_max_step = max(x_max_step, df['step'].max())
+        except Exception as e:
+            logging.error(f"Failed to process {pkl_file.name} for limits: {e}")
+
+    global_limits = {'y_mins': {}, 'y_maxs': y_maxs}
+    if x_max_time > 0:
+        global_limits['x_max'] = x_max_time
+        global_limits['x_col'] = 'normalized_time'
+        global_limits['x_label'] = "Time (s)"
+    else:
+        global_limits['x_max'] = x_max_step
+        global_limits['x_col'] = 'step'
+        global_limits['x_label'] = "Step"
+
+    logging.info(f"Global axis limits calculated: {global_limits}")
+    logging.info("Global limits calculated. Starting plot regeneration.")
+
+    # --- Pass 2: Regenerate Plots ---
+    for pkl_file in pkl_files:
+        logging.info(f"Regenerating plot from {pkl_file.name}")
+        try:
+            with open(pkl_file, 'rb') as f:
+                regen_info = pickle.load(f)
+
+            plot_func_name = regen_info['plot_function']
+            plot_func = globals().get(plot_func_name)
+
+            if not plot_func:
+                logging.warning(f"Plot function '{plot_func_name}' not found. Skipping {pkl_file.name}.")
+                continue
+
+            data = regen_info['data']
+            params = regen_info['params']
+            output_dir = pkl_file.parent
+
+            # Dynamically call the correct plotting function with all its original parameters,
+            # plus the new global_limits and the correct output directory.
+            plot_func(data, **params, output_dir=output_dir, global_limits=global_limits)
+        except Exception as e:
+            logging.error(f"Failed to regenerate plot for {pkl_file.name}: {e}", exc_info=True)
+
+    logging.info("Regeneration process complete.")
 
 def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
     """
@@ -596,6 +794,7 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
             "base_lin_vel_l2", "base_ang_vel_l2", "base_lin_acc_l2", "base_ang_acc_l2", "filter_reject_count",
             "local_rescue_attempts_delta", "local_rescue_success_delta", "local_rescue_reject_delta", "run_timed_out", "goal_reached", "path_length"
         ]
+        
         for m in metrics_to_scale:
             if m in master_df.columns:
                 global_limits['y_mins'][m] = master_df[m].min()
@@ -611,12 +810,12 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
             group_df['legend_label'] = group_df['run_id'].map(run_id_to_label_map)
 
             plot_benchmark_metrics(group_df, benchmark_name, output_dir, global_limits)
-            plot_benchmark_summary_bars(group_df, benchmark_name, output_dir, global_limits)
+            plot_benchmark_summary_bars(group_df, benchmark_name, output_dir, global_limits) # This function also saves its own pkl
             
         # Generate high-level configuration comparisons
         for comp_name, comp_df in master_df.groupby('ComparisonGroup'):
             logging.info(f"Generating configuration comparison plots for group: {comp_name}")
-            plot_comparison_summary_bars(comp_df, comp_name, output_dir, max_steps)
+            plot_comparison_summary_bars(comp_df, comp_name, output_dir, max_steps, global_limits)
             plot_comparison_timeseries(comp_df, comp_name, output_dir, global_limits, max_steps)
     else:
         logging.warning("No valid data was found to plot.")
@@ -624,16 +823,29 @@ def run_pipeline(root_dir: Path, excel_path: Path, output_dir: Path):
 if __name__ == "__main__":
     # Setup basic logging
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-    
-    # Define primary directories
+
+    parser = argparse.ArgumentParser(description="Benchmarking Visualization Pipeline")
+    parser.add_argument(
+        '--regenerate', 
+        action='store_true', 
+        help="Regenerate plots in 'z_2use' folder with a global scale."
+    )
+    args = parser.parse_args()
+
     base_directory = Path(__file__).parent
-    data_directory = base_directory / "2plot"
-    metadata_excel = base_directory / "ModelIBVS_BenchmarkTracking.xlsx"
-    output_directory = base_directory / "outputs"
-    
-    if metadata_excel.exists():
-        logging.info("Starting benchmarking visualization pipeline...")
-        run_pipeline(data_directory, metadata_excel, output_directory)
-        logging.info("Pipeline execution complete.")
+    z_2use_directory = base_directory / "z_2use"
+
+    if args.regenerate:
+        regenerate_from_z_2use(z_2use_directory)
     else:
-        logging.critical(f"Metadata file not found at {metadata_excel}")
+        # Define primary directories for a normal run
+        data_directory = base_directory / "2plot"
+        metadata_excel = base_directory / "ModelIBVS_BenchmarkTracking.xlsx"
+        output_directory = base_directory / "outputs"
+        
+        if metadata_excel.exists():
+            logging.info("Starting benchmarking visualization pipeline...")
+            run_pipeline(data_directory, metadata_excel, output_directory)
+            logging.info("Pipeline execution complete.")
+        else:
+            logging.critical(f"Metadata file not found at {metadata_excel}")
